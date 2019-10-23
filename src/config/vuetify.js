@@ -1,12 +1,24 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-import colors from 'vuetify/es5/util/colors'
 import 'vuetify/dist/vuetify.min.css'
-Vue.use(Vuetify,{
+
+Vue.use(Vuetify)
+
+const opts = {
+    icons: {
+      iconfont: 'md',  // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4'
+    },
     theme: {
-        primary : colors.red.darken1,
-        secondary : colors.red.lighten4,
-        accetn: colors.indigo.base,
-        error: colors.red.accent3
-    }
-})
+      dark: false,
+    },
+    themes: {
+      light: {
+        primary: "#4682b4",
+        secondary: "#b0bec5",
+        accent: "#8c9eff",
+        error: "#b71c1c",
+      },
+    },
+  }
+
+export default new Vuetify(opts)

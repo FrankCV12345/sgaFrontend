@@ -1,12 +1,19 @@
 <template>
-  
-  <div id="app">
-    <router-view/>   
-  </div>
+  <v-app>
+    <v-content>
+      <NavigationProfesores/>
+      <v-container>
+        <router-view/>
+      </v-container>
+    </v-content>
+    
+  </v-app>
 </template>
 
 <script>
+import NavigationProfesores from './navigations/profesor'
 export default {
+  components : {NavigationProfesores},
   name: 'App'
 }
 </script>

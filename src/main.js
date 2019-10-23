@@ -4,7 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-require('./config/vuetify')
+import vuetify from "@/config/vuetify"
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -12,6 +13,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  vuetify,
   components: { App },
   template: '<App/>'
-})
+}).$mount('#app')
