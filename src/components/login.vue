@@ -54,11 +54,12 @@ export default {
            login (){
                    AXIOS.post('login',this.usuario).then( response => {
                        let usuario =  response.data
-                       if(usuario.rol.nombreRol == 'Administrador'){
+                       if(usuario.rol.nombreRol == 'Administrador(a)'){
                            localStorage.setItem('tokem',usuario.token)
                            localStorage.setItem('idUser',usuario.id)
                            localStorage.setItem('nombreRol',usuario.rol.nombreRol)
                            this.$router.push('/admin')
+                           console.log(this.usuario)
                        }else {
                            this.message = 'Aun no existe una vista para este usuario'
                            this.ShowSnackBar = true

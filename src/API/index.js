@@ -18,3 +18,15 @@ export const s_registraUser = (params)=>{
 export const s_ListaUsers = ()=>{
     return AXIOS.get('usuario',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+export const s_ListaModalidades = ()=>{
+    return AXIOS.get('Modalidad',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_ListaTurnos = ()=>{
+    return AXIOS.get('Turno',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_ListaCarreas = ()=>{
+    return AXIOS.get('Carreras',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_ListaCiclosParaCarrera = (id)=>{
+    return AXIOS.get('CiclosParaCarreras/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}

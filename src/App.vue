@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <v-content>
-      <NavigationProfesores v-if="nombreRol === 'Profesor'" />
-      <NavigationAdmin v-if="nombreRol === 'Administrador'"/>
+      <NavigationProfesores v-if="nombreRol === 'Docente'" />
+      <NavigationAdmin v-if="nombreRol === 'Administrador(a)'"/>
       <v-container>
         <router-view/>
       </v-container>

@@ -61,8 +61,8 @@ export default {
             return  {
                     drawer : false,
                     items :[
-                        {title : 'Agregar usuario',icon:'mdi-account-plus', to:'agregaUsusario'},
-                         {title : 'Cerrar Sesion',icon:'mdi-logout', to: '/salir'}
+                        {title : 'Actualizar mis datos',icon:'mdi-account-edit', to:'agregaUsusario'},
+                        
                     ]
             }
     },

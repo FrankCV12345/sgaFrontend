@@ -1,29 +1,40 @@
 <template>
     <v-layout>
      <v-flex xs12 sm3 >
-        <v-navigation-drawer permanent>
+        <v-navigation-drawer permanent width="80%" >
             <v-toolbar flat>
                 <v-list>
                     <v-list-item-content>
-                        <v-list-item-title class="title">Administracion</v-list-item-title>
+                        <v-list-item-title class="title"><b>Administracion</b></v-list-item-title>
                     </v-list-item-content>
                 </v-list>
              </v-toolbar>
                     <v-divider/>
             <v-list>
-
-                <v-list-item
-                        v-for="item in itemsMenuAdminUser" :key="item.title"
-                        :to="item.to"
+                 <v-expansion-panels focusable>
+                      <v-expansion-panel
+                            v-for="(item,i) in  itemsMenuAdminUser"
+                            :key="i"
                         >
-                        <v-list-item-icon>
-                            <v-icon  >{{item.icon}}</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title > {{ item.title }} </v-list-item-title>
-                        </v-list-item-content>
-                        
-                </v-list-item>
+                             <v-expansion-panel-header>{{item.title}}</v-expansion-panel-header>  
+                            <v-expansion-panel-content>
+                                 <v-list>
+                                    <v-list-item
+                                    v-for="i in item.items" :key="i.title"
+                                    :to="i.to"
+                                    >
+                                        <v-list-item-icon>
+                                            <v-icon  >{{i.icon}}</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title > {{ i.title }} </v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list>
+                                
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                 </v-expansion-panels>
             </v-list>
                 
                 
@@ -42,8 +53,30 @@ export default {
          return  {
                     
                     itemsMenuAdminUser :[
-                        {title : 'Agregar Usuario',icon:'mdi-account-plus', to:'agregaUsusario'},
-                        {title : 'Lista Usuarios',icon:'mdi-account-multiple-outline', to:'ListaUsers'}
+                        {title:'Admin. Usuarios', items:[
+                            {title : 'Agregar Usuario',icon:'mdi-account-plus', to:'agregaUsusario'},
+                            {title : 'Lista Usuarios',icon:'mdi-account-multiple-outline', to:'ListaUsers'},
+                            ]
+                        },{title:'Admin. Cursos', items:[
+                                {title : 'Registro de Cursos',icon:'mdi-book-open-page-variant', to:'Addcursos'},
+                                {title : 'Lista de Cursos',icon:'mdi-book-open-page-variant', to:'Listcursos'},
+                            ]
+                        },
+                        {
+                            title:'Admin. de Secciones', items:[
+                                {title : 'Agregar Seccion',icon:'mdi-google-circles-communities', to:'AddSecciones'},
+                                {title : 'Lista Secciones',icon:'mdi-google-circles-communities', to:'ListSecciones'}                                
+                                                            
+                            ]
+                        },{
+                            title:'Admin. Calificaciones', items:[
+                                {title : 'Ver calificaciones',icon:'mdi-account-star', to:'Listcalificaciones'},
+                            ]
+                        },
+                        {title : 'Reportes',items:[
+                          {title:'Reportes de Calificaciones',icon:'mdi-chart-histogram', to:'Reportes'}  
+                        ]
+                        }
                     ]
             }
     }

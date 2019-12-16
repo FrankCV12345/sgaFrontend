@@ -5,6 +5,7 @@ import admin from '@/components/viewAdmin/admin'
 import AddUser from '@/components/viewAdmin/AddUser'
 import listUser from '@/components/viewAdmin/listaUser'
 import notFound from '@/components/notFound'
+import addSecciones from '@/components/viewAdmin/addSecciones'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -41,6 +42,13 @@ const router = new Router({
           name: 'Lista Usuarios',
           component: listUser,
           meta:{title:'Lista de Usuarios'}
+        },
+        ,
+        {
+          path: 'AddSecciones',
+          name: 'Secciones',
+          component: addSecciones,
+          meta:{title:'Agrega Nueva Seccion'}
         }
       ]
     },{
