@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
+import AuthModule from  '@/modules/Auth'
+import UsersModule from '@/modules/user'
 export default new Vuex.Store({
     state:{
         processing:false,
@@ -27,6 +29,7 @@ export default new Vuex.Store({
         }
     },
     modules : {
-        
+        AuthModule,
+        UsersModule
     }
 })

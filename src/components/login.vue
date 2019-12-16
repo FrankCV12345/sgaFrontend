@@ -6,7 +6,7 @@
                     <v-container>
                         <v-row>  
                             <v-text-field
-                                v-model="correo"
+                                v-model="usuario.correo"
                                 label="Usuario"
                                 single-line
                                 solo
@@ -14,7 +14,7 @@
                         </v-row>
                         <v-row>
                             <v-text-field
-                                v-model="password"
+                                v-model="usuario.password"
                                 type="password"
                                 label="Password"
                                 single-line
@@ -26,42 +26,51 @@
                         </v-row>
                     </v-container>
                 </v-col>
-            </v-row>    
+            </v-row>
+            <appSnackBaar
+            :v-if="ShowSnackBar"
+            :snackBar="ShowSnackBar"
+            :timeout="timeout"
+            :text="message"
+            />    
         </v-container>
 </template>
 <script>
-import axios from 'axios'
-
+import {AXIOS} from '../config/axios'
+import appSnackBaar from '@/components/snackBar'
 export default {
     name : 'login',
+    components:{appSnackBaar} ,
     data() {
         return {
             msg: 'Welcome to Your Vue.js App',
-            correo : '',
-            password:''
+            usuario :{ correo : '', password:''},
+            timeout:5000,
+            message:'',
+            ShowSnackBar:false
         }
     },
-    methods : {
-           login :  function(){
-               const urlLogin = "http://localhost:8071/login"
-               axios.post(urlLogin, {correo: this.correo , password:this.password})
-               .then(
-                   response => {
-                       alert("Bienbenido")
-                       localStorage.setItem("Tokem",response.token)
-                   }
-               ).catch(
-                   err => {
-                    alert("Datos incorrectos")
-                   }
-                   
-               )
+    methods : {    
+           login (){
+                   AXIOS.post('login',this.usuario).then( response => {
+                       let usuario =  response.data
+                       if(usuario.rol.nombreRol == 'Administrador'){
+                           localStorage.setItem('tokem',usuario.token)
+                           localStorage.setItem('idUser',usuario.id)
+                           localStorage.setItem('nombreRol',usuario.rol.nombreRol)
+                           this.$router.push('/admin')
+                       }else {
+                           this.message = 'Aun no existe una vista para este usuario'
+                           this.ShowSnackBar = true
+                           setTimeout(()=>{this.ShowSnackBar = false},this.timeout)
+                       }
+                   }).catch(
+                       error =>{
+                           console.log(this.usuario)
+                           console.error(error)
+                       }
+                   )
            }
     }
 }
 </script>
-
-
-<!--export const s_listClients = () => {
-  return axios.get('clients',{ headers:{'Authorization': 'Bearer '+ localStorage.getItem('tokenP')}})
-}-->

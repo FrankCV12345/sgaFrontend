@@ -9,7 +9,7 @@
             
             <v-spacer/>
   
-            <v-btn icon>
+            <v-btn icon @click="logunt">
             <v-icon>mdi-logout</v-icon>
             </v-btn>
         </v-toolbar>

@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <v-content>
-      <NavigationProfesores/>
+      <NavigationProfesores v-if="nombreRol === 'Profesor'" />
+      <NavigationAdmin v-if="nombreRol === 'Administrador'"/>
       <v-container>
         <router-view/>
       </v-container>
@@ -12,9 +13,24 @@
 
 <script>
 import NavigationProfesores from './navigations/profesor'
+import NavigationAdmin from './navigations/admin'
 export default {
-  components : {NavigationProfesores},
-  name: 'App'
+  components : {NavigationProfesores, NavigationAdmin},
+  name: 'App',
+   data(){
+            return  {
+              tokem:'',
+              idUser:'',
+              nombreRol:''
+            }
+    },
+  created(){
+    this.nombreRol= localStorage.getItem('nombreRol')
+  },
+  beforeUpdate(){
+    this.nombreRol= localStorage.getItem('nombreRol')  
+  }
+
 }
 </script>
 
