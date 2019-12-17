@@ -102,7 +102,7 @@
     </v-layout>
 </template>
 <script>
-import {s_ListaModalidades, s_ListaTurnos,s_ListaCarreas,s_ListaCiclosParaCarrera}  from '@/API'
+import {s_ListaModalidades, s_ListaTurnos,s_ListaCarreas,s_ListaCiclosParaCarrera,s_RegistraSeccion}  from '@/API'
 export default {
     name:'addSecciones',
     data(){
@@ -183,7 +183,15 @@ export default {
             )
         },
         guardarSeccion(){
-            console.log(this.seccion)
+            s_RegistraSeccion(this.seccion).then(
+                response => {
+                    console.log("Registrado",response)
+                }
+            ).catch(
+                error=> {
+                    console.error(error)
+                }
+            )
         }
 
     }

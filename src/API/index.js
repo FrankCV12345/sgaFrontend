@@ -30,3 +30,12 @@ export const s_ListaCarreas = ()=>{
 export const s_ListaCiclosParaCarrera = (id)=>{
     return AXIOS.get('CiclosParaCarreras/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+export const s_RegistraSeccion = (params)=>{
+    return AXIOS.post('Grupo',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_ListaSecciones = ()=>{
+    return AXIOS.get('Grupo',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_ListaCursos = ()=>{
+    return AXIOS.get('Curso',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}

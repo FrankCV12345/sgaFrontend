@@ -58,14 +58,14 @@ export default {
                             {title : 'Lista Usuarios',icon:'mdi-account-multiple-outline', to:'ListaUsers'},
                             ]
                         },{title:'Admin. Cursos', items:[
-                                {title : 'Registro de Cursos',icon:'mdi-book-open-page-variant', to:'Addcursos'},
-                                {title : 'Lista de Cursos',icon:'mdi-book-open-page-variant', to:'Listcursos'},
+                                {title : 'Registro de Cursos',icon:'mdi-book-open-page-variant', to:'AgregaCurso'},
+                                {title : 'Lista de Cursos',icon:'mdi-book-open-page-variant', to:'ListaCursos'},
                             ]
                         },
                         {
                             title:'Admin. de Secciones', items:[
                                 {title : 'Agregar Seccion',icon:'mdi-google-circles-communities', to:'AddSecciones'},
-                                {title : 'Lista Secciones',icon:'mdi-google-circles-communities', to:'ListSecciones'}                                
+                                {title : 'Lista Secciones',icon:'mdi-google-circles-communities', to:'ListaSecciones'}                                
                                                             
                             ]
                         },{
