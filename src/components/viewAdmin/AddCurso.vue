@@ -7,6 +7,7 @@
             <v-text-field v-model="curso.descripioncurso" :counter="120" label="Descripcion Curso" required></v-text-field>
             <v-btn
                 color="primary"
+                @click="registraCuro()"
             >
                 Guardar
             </v-btn>
@@ -17,7 +18,7 @@
     </v-layout>
 </template>
 <script>
-import {dsa} from '@/API'
+import {s_RegistraCurso} from '@/API'
 export default {
     name:'addCurso',
     data(){
@@ -30,7 +31,16 @@ export default {
         }
     },
     methods:{
-        registraUser(){
+        registraCuro(){
+            s_RegistraCurso(this.curso).then(
+                response => {
+                    console.log(response)
+                }
+            ).catch(
+                error => {
+                    console.error(error)
+                }
+            )
 
         }
     },

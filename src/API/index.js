@@ -18,6 +18,9 @@ export const s_registraUser = (params)=>{
 export const s_ListaUsers = ()=>{
     return AXIOS.get('usuario',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+export const s_ActulizaUsers = (id,params)=>{
+    return AXIOS.put('usuario/'+id,params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
 export const s_ListaModalidades = ()=>{
     return AXIOS.get('Modalidad',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
@@ -38,4 +41,17 @@ export const s_ListaSecciones = ()=>{
 }
 export const s_ListaCursos = ()=>{
     return AXIOS.get('Curso',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_RegistraCurso = (params)=>{
+    return AXIOS.post('Curso',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_ListaProfesores = ()=>{
+    return AXIOS.get('usuario/profesores',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_ListaCursoPorGrupo = (id)=>{
+    return AXIOS.get('CrusosCarreras/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_RegistraCursosGrupo = (params)=>{
+    return AXIOS.post('CrusosCarreras/registraCursos',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }

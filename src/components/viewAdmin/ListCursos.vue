@@ -3,6 +3,12 @@
         <v-flex sm12>
             <v-list>
                 <v-list-item v-for="curso in listaCursos" :key="curso.id">
+                    <v-btn icon>
+                        <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                    <v-btn icon>
+                        <v-icon>mdi-grease-pencil</v-icon>
+                    </v-btn>
                     <v-list-item-content>
                         <v-list-item-title v-text="curso.nombrecurso"></v-list-item-title>
                         <v-list-item-subtitle v-text="curso.descripioncurso"></v-list-item-subtitle>                    
