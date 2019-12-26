@@ -70,7 +70,7 @@ export default {
                             ]
                         },{
                             title:'Admin. Calificaciones', items:[
-                                {title : 'Ver calificaciones',icon:'mdi-account-star', to:'Listcalificaciones'},
+                                {title : 'Ver calificaciones',icon:'mdi-account-star', to:'CalificacionProfesor'},
                             ]
                         },
                         {title : 'Reportes',items:[

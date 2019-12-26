@@ -9,6 +9,7 @@ import addSecciones from '@/components/viewAdmin/addSecciones'
 import listaSecciones from '@/components/viewAdmin/listaSecciones'
 import listCursos from '@/components/viewAdmin/listCursos'
 import addCurso from '@/components/viewAdmin/addCurso'
+import calificacionProfesor from '@/components/viewAdmin/VerCalificacionProfesor'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -69,6 +70,12 @@ const router = new Router({
           name: 'Agregar Curso',
           component: addCurso,
           meta:{title:'Agregar Cusrso'}
+        },
+        {
+          path: 'CalificacionProfesor',
+          name: 'Calificaciones profesor',
+          component: calificacionProfesor,
+          meta:{title:'Calificaciones profesor'}
         }
       ]
     },{
