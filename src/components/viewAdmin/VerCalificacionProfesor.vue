@@ -4,7 +4,7 @@
             <h1>Lista Profesores</h1>
             <v-list>
                 <v-list-item v-for=" profesor in listaProfesores " :key="profesor.id">
-                    <v-btn icon @click="VerCalificacion(profesor.nombre)">
+                    <v-btn icon @click="verPerfilProfesor(profesor.id)">
                         <v-icon>mdi-eye</v-icon>
                     </v-btn>
                     <v-list-item-content>
@@ -12,19 +12,23 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-            <v-card max-width="600px" max-height="800px">
-                <v-card-title>Grafico</v-card-title>
-                <v-divider></v-divider>
-                <v-card-text>
-                    <radar-chart :chart-data="datacollection"></radar-chart>
-                    <button @click="fillData()">RANDOM</button>
-                </v-card-text>
-            </v-card>
+            <v-dialog  v-model="DialogRadar" scrollable persistent max-width="680px" >
+                <v-card  max-height="600px">
+                    <v-card-title>Grafico Radar de Aptitudes de profesor </v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-text>
+                        <radar-chart :chart-data="datacollection"></radar-chart>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn @click="DialogRadar = false"  color="primary"> Cerrar</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </v-flex>
     </v-layout>
 </template>
 <script>
-import {s_ListaProfesores} from '@/API'
+import {s_ListaProfesores,s_VerPerfilProfesor} from '@/API'
 import RadarChart from './RadarChart.js'
 export default {
     components: {
@@ -35,7 +39,8 @@ export default {
     data(){
         return {
             listaProfesores : [],
-            datacollection: null
+            datacollection: null,
+            DialogRadar:false
         }
     },
     methods:{
@@ -48,12 +53,24 @@ export default {
                     console.log(error)
                 })
         },
+        verPerfilProfesor(id){
+            s_VerPerfilProfesor(id).then(
+                response => {
+                    this.fillData(response.data.promedioAclaraDudas,response.data.primedioExpresaClaramente,response.data.dominaTema)
+                   this.DialogRadar = true
+                }
+            ).catch(
+                error =>{
+                    console.error(error)
+                }
+            )
+        },
         VerCalificacion(){
 
         },
-        fillData() {
+        fillData(promDominaTema,AclaraDudas,ExpresaClaramene) {
         this.datacollection = {
-          labels: ['Aptirud 1', 'Aptitud 2', 'Aptidud 3','Aptitud 4'],
+          labels: ['Domina tema ', 'Aclara dudas', 'Se expresa claramente'],
           datasets: [
             {
                 label: 'Aptitudes del Profesor',
@@ -63,22 +80,18 @@ export default {
                 pointBorderColor: "#fff",
                 pointHoverBackgroundColor: "#fff",
                 pointHoverBorderColor: "rgba(179,181,198,1)",
-                data: [4.2 ,5 ,2,3.4]
+                data: [promDominaTema,AclaraDudas,ExpresaClaramene]
             }
           ]
         },
       { responsive: true, maintainAspectRatio: false }
-      },
-      getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
       }
     },
     created(){
-        this.listarProfesores(),
-        this.fillData()
+        this.listarProfesores()
+        this.fillData(0,0,0)
     },
     mounted(){
-        //this.fillData()
     }
 }
 </script>

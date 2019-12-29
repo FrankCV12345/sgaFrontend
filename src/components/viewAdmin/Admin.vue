@@ -74,7 +74,7 @@ export default {
                             ]
                         },
                         {title : 'Reportes',items:[
-                          {title:'Reportes de Calificaciones',icon:'mdi-chart-histogram', to:'Reportes'}  
+                          {title:'Informes en Graficos',icon:'mdi-chart-histogram', to:'Dashboard'}  
                         ]
                         }
                     ]

@@ -55,3 +55,14 @@ export const s_ListaCursoPorGrupo = (id)=>{
 export const s_RegistraCursosGrupo = (params)=>{
     return AXIOS.post('CrusosCarreras/registraCursos',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+export const s_VerPerfilProfesor = (id)=>{
+    return AXIOS.get('calificacionProfesor/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_ProfesoreConPromedio = ()=>{
+    return AXIOS.get('/calificacionProfesor/profesoresPromedio/',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_ReporteEstadosSolicitud = ()=>{
+    return AXIOS.get('/SolicitudesAlumno/reportesolicitudes/',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
