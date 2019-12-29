@@ -3,19 +3,20 @@
     <v-content>
       <NavigationProfesores v-if="nombreRol === 'Docente'" />
       <NavigationAdmin v-if="nombreRol === 'Administrador(a)'"/>
+      <NavigationSecretaria v-if="nombreRol === 'Secretaria(o)'" />
       <v-container>
         <router-view/>
       </v-container>
     </v-content>
-    
   </v-app>
 </template>
 
 <script>
 import NavigationProfesores from './navigations/profesor'
 import NavigationAdmin from './navigations/admin'
+import NavigationSecretaria from './navigations/secretaria'
 export default {
-  components : {NavigationProfesores, NavigationAdmin},
+  components : {NavigationProfesores, NavigationAdmin,NavigationSecretaria},
   name: 'App',
    data(){
             return  {

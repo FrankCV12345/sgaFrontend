@@ -2,10 +2,11 @@
     <div>
         <v-toolbar
             dark
-            color="secondary"
+            color="teal darken-3"
         >
             <v-app-bar-nav-icon @click="toggleDrawer" />
             
+            <v-toolbar-title>Administrador</v-toolbar-title>
             <v-spacer/>
   
             <v-btn icon @click="logunt">

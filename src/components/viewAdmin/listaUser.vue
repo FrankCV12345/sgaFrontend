@@ -24,8 +24,9 @@
                 <v-card-text >
                     <p class="text-sm-left"><b> CORREO :</b> {{userSelected.correo}}</p>
                     <p class="text-sm-left"><b> TELEFONO :</b> {{userSelected.telefono}}</p>
+                    <p class="text-sm-left"><b> DNI :</b> {{userSelected.dni}}</p>
                     <v-row v-if="userSelected.rol.id ==  1 ">
-                        <v-col sm12 v-if="userSelected.grupo.id != null">
+                        <v-col  class="text-sm-left" sm12 v-if="userSelected.grupo.id != null">
                             
                             <b> SECCION :</b> {{llenaCeros(userSelected.grupo.id,5,'S')}}
                     

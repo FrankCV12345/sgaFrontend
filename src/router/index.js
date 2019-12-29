@@ -11,6 +11,7 @@ import listCursos from '@/components/viewAdmin/listCursos'
 import addCurso from '@/components/viewAdmin/addCurso'
 import calificacionProfesor from '@/components/viewAdmin/VerCalificacionProfesor'
 import Dashboard from '@/components/viewAdmin/Dashboard'
+import secretaria from '@/components/viewSecretaria/secretaria'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -85,6 +86,12 @@ const router = new Router({
           meta:{title:'Dashboard'}
         }
       ]
+    },
+    {
+      path: '/secretaria',
+      name: 'secretaria',
+      component: secretaria,
+      meta:{title:'Secretaria'}
     },{
       path:'*',
       component:notFound

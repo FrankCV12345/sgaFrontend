@@ -79,6 +79,27 @@ export default {
                         }
                     ]
             }
+    },
+    methods:{
+        EvaluaSesion(){
+            let tiempoDuraSession = 43200000
+            let fechaActual = new Date()
+            let fehcaSesion =  localStorage.getItem('FechHoraInicioSecion');
+            let tokem = localStorage.getItem('tokem')
+            if( tokem == 'null' ){    
+                this.$router.push('/login')
+            }else{
+                if((fechaActual.getTime() - parseFloat(fehcaSesion) ) > tiempoDuraSession){
+                    localStorage.setItem('idUser',null)
+                    localStorage.setItem('nombreRol',null)
+                    localStorage.setItem('tokem',null)
+                    this.$router.push('/login')
+                }
+            }
+        }
+    },
+    created(){
+        this.EvaluaSesion()
     }
 }
 </script>

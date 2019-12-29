@@ -1,6 +1,6 @@
 <template>
         <v-container fluid >
-            <h1>LOGIN</h1>
+            <h1>LOGIN SGA</h1>
             <v-row align="center" justify="center" >
                 <v-col  md="6" sm="9" xs="12" >
                     <v-container>
@@ -53,25 +53,42 @@ export default {
     methods : {    
            login (){
                    AXIOS.post('login',this.usuario).then( response => {
-                       let usuario =  response.data
+                            let usuario =  response.data
+                            let fecha = new Date()
+                            localStorage.setItem('tokem',usuario.token)
+                            localStorage.setItem('idUser',usuario.id)
+                            localStorage.setItem('nombreRol',usuario.rol.nombreRol)
+                            localStorage.setItem('FechHoraInicioSecion',fecha.getTime())
+
                        if(usuario.rol.nombreRol == 'Administrador(a)'){
-                           localStorage.setItem('tokem',usuario.token)
-                           localStorage.setItem('idUser',usuario.id)
-                           localStorage.setItem('nombreRol',usuario.rol.nombreRol)
                            this.$router.push('/admin')
-                           console.log(this.usuario)
-                       }else {
+                       }else if( usuario.rol.nombreRol=='Secretaria(o)'){
+                           this.$router.push('/secretaria')
+                       }                       
+                       else {
                            this.message = 'Aun no existe una vista para este usuario'
                            this.ShowSnackBar = true
                            setTimeout(()=>{this.ShowSnackBar = false},this.timeout)
                        }
                    }).catch(
                        error =>{
-                           console.log(this.usuario)
                            console.error(error)
                        }
                    )
+           },
+           verificaSession(){
+               if(localStorage.getItem('tokem') != 'null'){
+                    if(localStorage.getItem('nombreRol') == 'Administrador(a)'){
+                        this.$router.push('/admin')
+                    }else if( localStorage.getItem('nombreRol')=='Secretaria(o)'){
+                        this.$router.push('/secretaria')
+                    }
+               }
            }
+    },
+    created(){
+        this.verificaSession()
     }
+
 }
 </script>

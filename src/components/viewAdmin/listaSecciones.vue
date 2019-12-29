@@ -17,6 +17,7 @@
                             <v-list-item-subtitle >{{'ID: '+llenaCeros(seccion.id,4,'S')}}</v-list-item-subtitle>
                             <v-list-item-subtitle >Fecha de inicio : {{seccion.fechaInicio}}</v-list-item-subtitle>
                             <v-list-item-subtitle >Fecha de Fin : {{seccion.fechaFin}}</v-list-item-subtitle>
+                            <v-list-item-subtitle >Ciclo : {{seccion.ciclo.nrociclo}}</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
