@@ -14,8 +14,8 @@
                     <v-card>
                         <v-card-title>Reporte de estado de solicitudes</v-card-title>
                         <v-divider></v-divider>
-                        <v-card-text>
-                            <PieChart :chart-data="datacollectionPieEstadosSolicitud"  ></PieChart>
+                        <v-card-text v-if="datacollectionPieEstadosSolicitud != null">
+                            <PieChart :chart-data="datacollectionPieEstadosSolicitud" :options="chartOptionsPie"></PieChart>
                         </v-card-text>
                     </v-card>
                 </v-col>
@@ -44,8 +44,8 @@ export default {
                         }
                     }]
                 }
-            }
-
+            },
+            chartOptionsPie:null
         }
     },
     methods:{
@@ -89,6 +89,14 @@ export default {
                         data: promedios
                     }
                 ]    
+            } 
+            this.chartOptionsPie = {
+                responsive: true, 
+                maintainAspectRatio: false,
+                pieceLabel: {
+                    mode: 'percentage',
+                    precision: 1
+                }
             }
         },
         llenaDatosParaPieChartEstadosSolicitudes(ListaEstados){

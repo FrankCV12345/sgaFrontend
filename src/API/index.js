@@ -66,3 +66,32 @@ export const s_ProfesoreConPromedio = ()=>{
 export const s_ReporteEstadosSolicitud = ()=>{
     return AXIOS.get('/SolicitudesAlumno/reportesolicitudes/',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+
+export const s_ListaSolicitdes = ()=>{
+    return AXIOS.get('/SolicitudesAlumno/',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_Actualizasolicitud=(params)=>{
+    return AXIOS.put('/SolicitudesAlumno/',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_EstadosSolicitud = ()=>{
+    return AXIOS.get('/TiposEstadoSolicitud/',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_ListaSolicitudesPorResponsable=()=>{
+    return AXIOS.get('/SolicitudesAlumno/Responsable/'+localStorage.getItem("idUser"),{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const Func_LlenaCeros= (numero , cantidadCeros,letra) =>{
+    let numeroRellenado = ""+numero;
+    for(let i =0 ; i <= cantidadCeros; i++){
+        if(numeroRellenado.length < cantidadCeros ){
+             numeroRellenado="0"+numeroRellenado
+        }else{
+             numeroRellenado=   letra + numeroRellenado     
+            break
+        }
+    }
+    return numeroRellenado
+}

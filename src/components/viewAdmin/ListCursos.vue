@@ -11,8 +11,8 @@
                     ></v-text-field>
                 </v-col>
             </v-row>
-            <v-list :search="search">
-                <v-list-item v-for="curso in filteredItems" :key="curso.id">
+            <v-list>
+                <v-list-item v-for="curso in listaCursos" :key="curso.id">
                     <v-btn icon>
                         <v-icon>mdi-delete</v-icon>
                     </v-btn>

@@ -12,6 +12,8 @@ import addCurso from '@/components/viewAdmin/addCurso'
 import calificacionProfesor from '@/components/viewAdmin/VerCalificacionProfesor'
 import Dashboard from '@/components/viewAdmin/Dashboard'
 import secretaria from '@/components/viewSecretaria/secretaria'
+import solicitudes from '@/components/viewSecretaria/ListaSolicitudes'
+import solicitudesPorResponsable from '@/components/viewSecretaria/ListaSolicitudesPorResponsable'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -91,7 +93,21 @@ const router = new Router({
       path: '/secretaria',
       name: 'secretaria',
       component: secretaria,
-      meta:{title:'Secretaria'}
+      meta:{title:'Secretaria'},
+      children:[
+        {
+          path: 'Solicitudes',
+          name: 'Solicitudes',
+          component: solicitudes,
+          meta:{title:'Solicitudes '}
+        },
+        {
+          path: 'MisSolicitudes',
+          name: 'MisSolicitudes',
+          component: solicitudesPorResponsable,
+          meta:{title:' Mis Solicitudes atendidas '}
+        }
+      ]
     },{
       path:'*',
       component:notFound
