@@ -35,9 +35,8 @@ export default {
                             ]
                         },
                         {title:'Matriculas', items:[
-                                {title : 'Agregar Matricula',icon:'mdi-account-plus', to:'agregaUsusario'},
+                                {title : 'Agregar Matricula',icon:'mdi-account-plus', to:'registraAlumno'},
                                 {title : 'Matriculados',icon:'mdi-account-multiple-outline', to:'agregaUsusario'}
-                                
                                 ]
                         }
                             ]

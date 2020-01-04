@@ -14,6 +14,7 @@ import Dashboard from '@/components/viewAdmin/Dashboard'
 import secretaria from '@/components/viewSecretaria/secretaria'
 import solicitudes from '@/components/viewSecretaria/ListaSolicitudes'
 import solicitudesPorResponsable from '@/components/viewSecretaria/ListaSolicitudesPorResponsable'
+import registroMatricula from '@/components/viewSecretaria/registroMatriculado'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -106,6 +107,12 @@ const router = new Router({
           name: 'MisSolicitudes',
           component: solicitudesPorResponsable,
           meta:{title:' Mis Solicitudes atendidas '}
+        },
+        {
+          path: 'registraAlumno',
+          name: 'registraAlumno',
+          component: registroMatricula,
+          meta:{title:' Registro Alumno '}
         }
       ]
     },{
