@@ -82,7 +82,9 @@ export const s_EstadosSolicitud = ()=>{
 export const s_ListaSolicitudesPorResponsable=()=>{
     return AXIOS.get('/SolicitudesAlumno/Responsable/'+localStorage.getItem("idUser"),{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
-
+export const s_ListaAlumnos = ()=>{
+    return AXIOS.get('usuario/Alumnos',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
 export const Func_LlenaCeros= (numero , cantidadCeros,letra) =>{
     let numeroRellenado = ""+numero;
     for(let i =0 ; i <= cantidadCeros; i++){

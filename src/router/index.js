@@ -15,6 +15,8 @@ import secretaria from '@/components/viewSecretaria/secretaria'
 import solicitudes from '@/components/viewSecretaria/ListaSolicitudes'
 import solicitudesPorResponsable from '@/components/viewSecretaria/ListaSolicitudesPorResponsable'
 import registroMatricula from '@/components/viewSecretaria/registroMatriculado'
+import ListaAlumnos from '@/components/viewSecretaria/ListAlumnos'
+import profesor from '@/components/viewProfesor/Profesor'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -113,9 +115,23 @@ const router = new Router({
           name: 'registraAlumno',
           component: registroMatricula,
           meta:{title:' Registro Alumno '}
+        },
+        {
+          path: 'ListaAlumnos',
+          name: 'ListaAlumnos',
+          component: ListaAlumnos,
+          meta:{title:' Lista Alumnos '}
         }
       ]
-    },{
+    },
+    {
+      path: '/docente',
+      name: 'Docente',
+      component: profesor,
+      meta:{title:'Docente'},
+      children:[]
+    }
+    ,{
       path:'*',
       component:notFound
     }
