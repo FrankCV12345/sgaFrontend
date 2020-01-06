@@ -64,7 +64,9 @@ export default {
                            this.$router.push('/admin')
                        }else if( usuario.rol.nombreRol=='Secretaria(o)'){
                            this.$router.push('/secretaria')
-                       }                       
+                       } else if(usuario.rol.nombreRol=='Docente'){
+                           this.$router.push('/docente')
+                       }                      
                        else {
                            this.message = 'Aun no existe una vista para este usuario'
                            this.ShowSnackBar = true

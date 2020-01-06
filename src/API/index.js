@@ -85,6 +85,20 @@ export const s_ListaSolicitudesPorResponsable=()=>{
 export const s_ListaAlumnos = ()=>{
     return AXIOS.get('usuario/Alumnos',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+
+export const s_ListaCursosProfesor = ()=>{
+    return AXIOS.get('/NotasAlumno/grupoYCursosPorGrupo/'+ localStorage.getItem("idUser"),{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_RegistraNota = (params)=>{
+    return AXIOS.post('/NotasAlumno/',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_ListaAlumnosPorGrupo = (idGrupo)=>{
+    return AXIOS.get('/usuario/AlumnosPorGrupo/'+idGrupo,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+
 export const Func_LlenaCeros= (numero , cantidadCeros,letra) =>{
     let numeroRellenado = ""+numero;
     for(let i =0 ; i <= cantidadCeros; i++){

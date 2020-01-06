@@ -17,6 +17,7 @@ import solicitudesPorResponsable from '@/components/viewSecretaria/ListaSolicitu
 import registroMatricula from '@/components/viewSecretaria/registroMatriculado'
 import ListaAlumnos from '@/components/viewSecretaria/ListAlumnos'
 import profesor from '@/components/viewProfesor/Profesor'
+import listaCursosySeciones from '@/components/viewProfesor/ListaSecioneYCurso'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -129,7 +130,14 @@ const router = new Router({
       name: 'Docente',
       component: profesor,
       meta:{title:'Docente'},
-      children:[]
+      children:[
+        {
+          path:'listaCursosDocente',
+          name: 'ListaCursos',
+          component: listaCursosySeciones,
+          meta:{title:'Cursos'}
+        }
+      ]
     }
     ,{
       path:'*',
