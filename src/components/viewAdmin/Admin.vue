@@ -54,27 +54,27 @@ export default {
                     
                     itemsMenuAdminUser :[
                         {title:'Admin. Usuarios', items:[
-                            {title : 'Agregar Usuario',icon:'mdi-account-plus', to:'agregaUsusario'},
-                            {title : 'Lista Usuarios',icon:'mdi-account-multiple-outline', to:'ListaUsers'},
+                            {title : 'Agregar Usuario',icon:'mdi-account-plus', to:'/admin/agregaUsusario'},
+                            {title : 'Lista Usuarios',icon:'mdi-account-multiple-outline', to:'/admin/ListaUsers'},
                             ]
                         },{title:'Admin. Cursos', items:[
-                                {title : 'Registro de Cursos',icon:'mdi-book-open-page-variant', to:'AgregaCurso'},
-                                {title : 'Lista de Cursos',icon:'mdi-book-open-page-variant', to:'ListaCursos'},
+                                {title : 'Registro de Cursos',icon:'mdi-book-open-page-variant', to:'/admin/AgregaCurso'},
+                                {title : 'Lista de Cursos',icon:'mdi-book-open-page-variant', to:'/admin/ListaCursos'},
                             ]
                         },
                         {
                             title:'Admin. de Secciones', items:[
-                                {title : 'Agregar Seccion',icon:'mdi-google-circles-communities', to:'AddSecciones'},
-                                {title : 'Lista Secciones',icon:'mdi-google-circles-communities', to:'ListaSecciones'}                                
+                                {title : 'Agregar Seccion',icon:'mdi-google-circles-communities', to:'/admin/AddSecciones'},
+                                {title : 'Lista Secciones',icon:'mdi-google-circles-communities', to:'/admin/ListaSecciones'}                                
                                                             
                             ]
                         },{
                             title:'Admin. Calificaciones', items:[
-                                {title : 'Ver calificaciones',icon:'mdi-account-star', to:'CalificacionProfesor'},
+                                {title : 'Ver calificaciones',icon:'mdi-account-star', to:'/admin/CalificacionProfesor'},
                             ]
                         },
                         {title : 'Reportes',items:[
-                          {title:'Informes en Graficos',icon:'mdi-chart-histogram', to:'Dashboard'}  
+                          {title:'Informes en Graficos',icon:'mdi-chart-histogram', to:'/admin/Dashboard'}  
                         ]
                         }
                     ]
@@ -94,6 +94,13 @@ export default {
                     localStorage.setItem('nombreRol',null)
                     localStorage.setItem('tokem',null)
                     this.$router.push('/login')
+                }else{
+                     if(localStorage.getItem('nombreRol') !== 'Administrador(a)'){
+                            localStorage.setItem('idUser',null)
+                            localStorage.setItem('nombreRol',null)
+                            localStorage.setItem('tokem',null)
+                            this.$router.push('/login')
+                    }
                 }
             }
         }

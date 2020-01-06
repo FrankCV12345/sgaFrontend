@@ -30,18 +30,46 @@ export default {
         return {            
             itemsMenu:[
                         {title:'Solicitudes', items:[
-                            {title : 'Mis Solicitudes',icon:'mdi-book-open', to:'MisSolicitudes'},
-                            {title : 'Lista Solicitudes',icon:'mdi-format-list-bulleted', to:'Solicitudes'},
+                            {title : 'Mis Solicitudes',icon:'mdi-book-open', to:'/secretaria/MisSolicitudes'},
+                            {title : 'Lista Solicitudes',icon:'mdi-format-list-bulleted', to:'/secretaria/Solicitudes'},
                             ]
                         },
                         {title:'Matriculas', items:[
-                                {title : 'Agregar Matricula',icon:'mdi-account-plus', to:'registraAlumno'},
-                                {title : 'Matriculados',icon:'mdi-account-multiple-outline', to:'ListaAlumnos'}
+                                {title : 'Agregar Matricula',icon:'mdi-account-plus', to:'/secretaria/registraAlumno'},
+                                {title : 'Matriculados',icon:'mdi-account-multiple-outline', to:'/secretaria/ListaAlumnos'}
                                 ]
                         }
-                            ]
+                    ]
                 
                 }
+    },
+    methods:{
+        EvaluaSesion(){
+            let tiempoDuraSession = 43200000
+            let fechaActual = new Date()
+            let fehcaSesion =  localStorage.getItem('FechHoraInicioSecion');
+            let tokem = localStorage.getItem('tokem')
+            if( tokem == 'null' ){    
+                this.$router.push('/login')
+            }else{
+                if((fechaActual.getTime() - parseFloat(fehcaSesion) ) > tiempoDuraSession){
+                    localStorage.setItem('idUser',null)
+                    localStorage.setItem('nombreRol',null)
+                    localStorage.setItem('tokem',null)
+                    this.$router.push('/login')
+                }else{
+                    if(localStorage.getItem('nombreRol') !== 'Secretaria(o)'){
+                            localStorage.setItem('idUser',null)
+                            localStorage.setItem('nombreRol',null)
+                            localStorage.setItem('tokem',null)
+                            this.$router.push('/login')
+                    }
+                }
+            }
+        }
+    },
+    created(){
+        this.EvaluaSesion()
     }
 }
 </script>

@@ -16,7 +16,7 @@
                     <v-btn icon>
                         <v-icon>mdi-delete</v-icon>
                     </v-btn>
-                    <v-btn icon>
+                    <v-btn icon @click="OpenDialoEditCurso(curso)">
                         <v-icon>mdi-grease-pencil</v-icon>
                     </v-btn>
                     <v-list-item-content>
@@ -26,18 +26,51 @@
                 </v-list-item>
             </v-list>
         </v-flex>
+        <v-dialog v-model="dialoEditcurso" v-if="cursoSelected != null" persistent max-width="900px" >
+            <v-card>
+                <v-card-text>
+                    <v-row>
+                        <v-col sm="12">
+                            <v-text-field v-model="cursoSelected.nombrecurso" >
 
+                            </v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col sm="12">
+                            <v-text-field v-model="cursoSelected.descripioncurso" >
+
+                            </v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" @click="EditarCurso()" >Actualizar</v-btn>
+                    <v-btn @click="dialoEditcurso = false" >Cerrar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-snackbar v-model="snackBar" :color="colorSnakBar" :timeout="timeout" >{{textoSnackBar}}</v-snackbar>
     </v-layout>
 </template>
 <script>
-import {s_ListaCursos} from '@/API'
+import {s_ListaCursos, s_EditaCurso} from '@/API'
 export default {
     name:'ListaCursos',
     data(){
         return {
             listaCursos:[],
             search:'',
-            searchItem:[]
+            searchItem:[],
+            dialoEditcurso : false,
+            cursoSelected :  null,
+            snackBar:false,
+            colorSnakBar:'',
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error',
+            textoSnackBar:'',
+            timeout:2000
         }
     },
     methods:{
@@ -49,6 +82,28 @@ export default {
             ).catch(
                 error => {
                     console.error(error)
+                }
+            )
+        },
+        OpenDialoEditCurso(curso){
+            this.dialoEditcurso = true
+            this.cursoSelected = curso
+        },
+        EditarCurso(){
+            s_EditaCurso(this.cursoSelected).then(
+                response =>{
+                    this.cursoSelected = response.data
+                    this.colorSnakBar = this.colorSnakBarSuces
+                    this.textoSnackBar = "Actualizado correctamente"
+                    this.snackBar= true
+                    this.dialoEditcurso = false
+                }
+            ).catch(
+                error =>{
+                    this.colorSnakBar = this.colorSnackBarError
+                    this.textoSnackBar = "Error al actualizar"
+                    this.snackBar= true
+                    this.dialoEditcurso = false
                 }
             )
         }

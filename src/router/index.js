@@ -146,7 +146,7 @@ const router = new Router({
   ]
 })
 router.beforeEach(
-  (to,from,next)=>{
+  (to,_from,next)=>{
     document.title = to.meta.title;
     next()
   })

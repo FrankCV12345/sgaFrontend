@@ -22,7 +22,8 @@
         </v-row>
         <v-dialog persistent scrollable v-model="dialoglistaAlumnos" v-if="ListaAlumnos != null" max-width="600px" >
             <v-card>
-                <v-card-title>Lista Alumnos para  : <b> {{llenaCeros(ListaAlumnos[0].id,5,'SEC')}}</b></v-card-title>
+                <v-card-title>Curso : <b> {{cursoSelected.nombreCurso }}</b></v-card-title>
+                <v-card-subtitle>Seccion : {{llenaCeros(ListaAlumnos[0].id,5,'SEC') }} </v-card-subtitle>
                 <v-spacer></v-spacer>
                 <v-card-text>
                     <v-row>
@@ -48,35 +49,33 @@
         </v-dialog>
         <v-dialog persistent max-width="900px" v-model="dialognotasAlulmno" >
                 <v-card>
+                    <v-card-title>{{notaSelected.alumno.nombre +"  "+notaSelected.alumno.apellidos}}</v-card-title>
                     <v-card-text>
                         <v-row>
                             <v-col sm="12">    
-                            <v-text-field 
-                                v-model="notaSelected.nota1"
-                                label="Nota 1"
-                                type="number"
-                                :disabled="evaluaNotas(notaSelected.nota1)"
-                            ></v-text-field>
+                                <v-text-field  
+                                    v-model="notaSelected.nota1"
+                                    label="Nota 1"
+                                    type="number"
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col sm="12">    
-                            <v-text-field 
-                                v-model="notaSelected.nota2"
-                                label="Nota 2"
-                                type="number"
-                                :disabled="evaluaNotas(notaSelected.nota2)"
-                            ></v-text-field>
+                                <v-text-field 
+                                    v-model="notaSelected.nota2"
+                                    label="Nota 2"
+                                    type="number"
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col sm="12">    
-                            <v-text-field 
-                                v-model="notaSelected.nota3"
-                                label="Nota 3"
-                                type="number"
-                                :disabled="evaluaNotas(notaSelected.nota3)"
-                            ></v-text-field>
+                                <v-text-field 
+                                    v-model="notaSelected.nota3"
+                                    label="Nota 3"
+                                    type="number"
+                                ></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
@@ -85,7 +84,6 @@
                                 v-model="notaSelected.examenfinal"
                                 label="Examen final"
                                 type="number"
-                                :disabled="evaluaNotas(notaSelected.examenfinal)"
                             ></v-text-field>
                             </v-col>
                         </v-row>
@@ -141,6 +139,7 @@ export default {
         },
         listarAlumnos(curso){
             this.cursoSelected = curso
+            console.log(this.cursoSelected)
             s_ListaAlumnosPorGrupo(curso.idGrupo).then(
                 response =>{   
                     this.ListaAlumnos = response.data
@@ -171,7 +170,7 @@ export default {
         },evaluaNotas(numero){
             if(numero == null){
                 return false
-            }else if( numero != null){
+            }else if( numero != null ){
                 return true
             }
         },

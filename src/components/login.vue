@@ -9,6 +9,7 @@
                                 v-model="usuario.correo"
                                 label="Usuario"
                                 single-line
+                                type="mail"
                                 solo
                                 ></v-text-field>       
                         </v-row>
@@ -22,17 +23,17 @@
                                 ></v-text-field>
                         </v-row>
                         <v-row>
-                            <v-btn color="primary" v-on:click="login" >ENTRAR</v-btn>
+                            <v-btn color="primary" :disabled="validForm"  @click="login" >ENTRAR</v-btn>
                         </v-row>
                     </v-container>
                 </v-col>
             </v-row>
-            <appSnackBaar
-            :v-if="ShowSnackBar"
-            :snackBar="ShowSnackBar"
-            :timeout="timeout"
-            :text="message"
-            />    
+            <v-snackbar v-model="snackBar" :color="colorSnakBar" :timeout="2000">
+                {{textoSnackBar}}
+                <v-btn text @click="snackBar = false">
+                    Cerrar
+                </v-btn>
+            </v-snackbar>    
         </v-container>
 </template>
 <script>
@@ -47,36 +48,61 @@ export default {
             usuario :{ correo : '', password:''},
             timeout:5000,
             message:'',
-            ShowSnackBar:false
+            snackBar:false,
+            colorSnakBar:'',
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error',
+            textoSnackBar:'',
+            validForm:false
+            
         }
     },
     methods : {    
            login (){
-                   AXIOS.post('login',this.usuario).then( response => {
+                if(this.CheckForm(this.usuario)){
+                    AXIOS.post('login',this.usuario).then( response => {
                             let usuario =  response.data
-                            let fecha = new Date()
-                            localStorage.setItem('tokem',usuario.token)
-                            localStorage.setItem('idUser',usuario.id)
-                            localStorage.setItem('nombreRol',usuario.rol.nombreRol)
-                            localStorage.setItem('FechHoraInicioSecion',fecha.getTime())
+                                let fecha = new Date()
+                                localStorage.setItem('tokem',usuario.token)
+                                localStorage.setItem('idUser',usuario.id)
+                                localStorage.setItem('nombreRol',usuario.rol.nombreRol)
+                                localStorage.setItem('FechHoraInicioSecion',fecha.getTime())
 
-                       if(usuario.rol.nombreRol == 'Administrador(a)'){
-                           this.$router.push('/admin')
-                       }else if( usuario.rol.nombreRol=='Secretaria(o)'){
-                           this.$router.push('/secretaria')
-                       } else if(usuario.rol.nombreRol=='Docente'){
-                           this.$router.push('/docente')
-                       }                      
-                       else {
-                           this.message = 'Aun no existe una vista para este usuario'
-                           this.ShowSnackBar = true
-                           setTimeout(()=>{this.ShowSnackBar = false},this.timeout)
-                       }
-                   }).catch(
-                       error =>{
-                           console.error(error)
-                       }
-                   )
+                        if(usuario.rol.nombreRol == 'Administrador(a)'){
+                            this.$router.push('/admin')
+                        }else if( usuario.rol.nombreRol=='Secretaria(o)'){
+                            this.$router.push('/secretaria')
+                        } else if(usuario.rol.nombreRol=='Docente'){
+                            this.$router.push('/docente')
+                        }                      
+                        else {
+                            this.message = 'Aun no existe una vista para este usuario'
+                            this.ShowSnackBar = true
+                            setTimeout(()=>{this.ShowSnackBar = false},this.timeout)
+                        }
+                    }).catch(
+                        error =>{
+                            this.snackBar = true
+                            this.colorSnakBar = this.colorSnackBarError
+                            switch  (error.response.status)
+                            {
+                                    case 401:
+                                        this.textoSnackBar ='Datos Incorrectos'
+                                    break
+                                    case 500:
+                                        this.textoSnackBar ='Ocurrio un error interno'
+                                        break
+                                    default:
+                                        this.textoSnackBar ='Error Desconocido'
+                                        break
+                            } 
+                        }
+                    )
+                   }else {
+                        this.snackBar = true
+                        this.colorSnakBar = this.colorSnackBarError
+                        this.textoSnackBar ='Datos invalidos'
+                   }
            },
            verificaSession(){
                if(localStorage.getItem('tokem') != 'null'){
@@ -84,9 +110,22 @@ export default {
                         this.$router.push('/admin')
                     }else if( localStorage.getItem('nombreRol')=='Secretaria(o)'){
                         this.$router.push('/secretaria')
+                    }else if(localStorage.getItem('nombreRol')=='Docente'){
+                        this.$router.push('/docente')
                     }
                }
-           }
+           },
+           CheckForm(usuario){
+               if(usuario.correo == ''  || usuario.password == '' || !this.validEmail(usuario.correo)){
+                   return false
+               }else{
+                   return true
+               }
+           },  
+            validEmail:function(email) {
+                var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            }
     },
     created(){
         this.verificaSession()
