@@ -51,17 +51,47 @@
                     <v-card-text>
                         <v-row>
                             <v-col sm="12">    
-                            <span v-if="notaSelected.nota1 !=null"  > NOTA 1 :{{notaSelected.nota1}}</span>
-                            <v-text-field v-else
+                            <v-text-field 
                                 v-model="notaSelected.nota1"
                                 label="Nota 1"
                                 type="number"
+                                :disabled="evaluaNotas(notaSelected.nota1)"
+                            ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col sm="12">    
+                            <v-text-field 
+                                v-model="notaSelected.nota2"
+                                label="Nota 2"
+                                type="number"
+                                :disabled="evaluaNotas(notaSelected.nota2)"
+                            ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col sm="12">    
+                            <v-text-field 
+                                v-model="notaSelected.nota3"
+                                label="Nota 3"
+                                type="number"
+                                :disabled="evaluaNotas(notaSelected.nota3)"
+                            ></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col sm="12">    
+                            <v-text-field 
+                                v-model="notaSelected.examenfinal"
+                                label="Examen final"
+                                type="number"
+                                :disabled="evaluaNotas(notaSelected.examenfinal)"
                             ></v-text-field>
                             </v-col>
                         </v-row>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn color="primary" >
+                        <v-btn color="primary" @click="ServicioNotas()" >
                             Guardar Nota
                         </v-btn>
                         <v-btn @click="cerrarDialogNotas()">
@@ -86,7 +116,7 @@ export default {
                 nota1: null,
                 nota2: null,
                 nota3: null,
-                examenfinal: 0.0,
+                examenfinal: null,
                 estadoaprobado: null,
                 fechaaultimaActualizacion: null,
                 alumno:{id:null},
@@ -123,20 +153,27 @@ export default {
             )
         },
         ServicioNotas(alumno){
-            console.log(this.notaSelected)
-            this.notaSelected.alumno.id = alumno.id
-            this.notaSelected.curso.id =  this.cursoSelected.idCurso_grupo
+            if(alumno != undefined){
+                this.notaSelected.alumno.id = alumno.id
+                this.notaSelected.curso.id =  this.cursoSelected.idCurso_grupo
+            
+            }
             s_RegistraNota(this.notaSelected).then(
                 response => {
                     this.notaSelected = response.data
                     this.dialognotasAlulmno =  true
-                    console.log(this.notaSelected)
                 }
             ).catch(
                 error =>{
 
                 }
             )
+        },evaluaNotas(numero){
+            if(numero == null){
+                return false
+            }else if( numero != null){
+                return true
+            }
         },
         cerrarDialog(){
             this.dialoglistaAlumnos =  false;
