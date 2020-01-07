@@ -46,23 +46,6 @@
                         :counter="220"
                         required
                     ></v-text-field>
-                    
-                    <v-select
-                        :items="tipoRol"
-                        item-text="nombreRol"
-                        name='id'
-                        v-model="usuario.rol.id"
-                        item-value="id"
-                        label="Selecione Tipo Rol."
-                    >
-                    </v-select>
-                    <v-text-field
-                        label="Nombre Colegio"
-                        :counter="220"
-                        v-model="usuario.nombreColegio"
-                        required
-                    ></v-text-field>
-                    
                     <v-menu
                     ref="menu"
                     :close-on-content-click="false"
@@ -86,7 +69,7 @@
                             <v-btn text color="primary" @click="$refs.menu.save(usuario.fechaNacimiento)">OK</v-btn>
                         </v-date-picker>
                     </v-menu>
-
+                    
                     <v-select
                         :items="tipoSexo"
                         item-text="nombreSexo"
@@ -105,14 +88,50 @@
                     >
                     </v-select>
                     <v-select
-                        :items="Sedes"
-                        item-text="nombreSede"
+                        :items="tipoRol"
+                        item-text="nombreRol"
+                        name='id'
+                        v-model="usuario.rol.id"
                         item-value="id"
-                        label="Selecione Sede."
-                        name="id"
-                        v-model="usuario.sede.id"
+                        label="Selecione Tipo Rol."
                     >
                     </v-select>
+                   
+                    
+                    
+                    <v-row v-if="usuario.rol.id == 1">
+                        <v-col sm="4" >
+                            <v-text-field
+                            label="Nombre Colegio"
+                            :counter="220"
+                            v-model="usuario.nombreColegio"
+                            required
+                            ></v-text-field>
+                        </v-col>
+                        <v-col sm="4" >
+                             <v-select
+                                :items="Sedes"
+                                item-text="nombreSede"
+                                item-value="id"
+                                label="Selecione Sede."
+                                name="id"
+                                v-model="usuario.sede.id"
+                            >
+                            </v-select>
+                        </v-col>
+                        <v-col sm="4">
+                                <v-select v-if="LstaSecciones != null"
+                                    :items="LstaSecciones"
+                                    item-text="NombreAndId"
+                                    name='id'
+                                    v-model="usuario.grupo.id"
+                                    item-value="id"
+                                    label="Selecione Seccion"
+                                    >
+                                </v-select>
+                        </v-col>
+                    </v-row>
+                    
                     
                     <v-btn
                         color="error"
@@ -137,7 +156,7 @@
 </template>
 
 <script>
-import {s_listaSexo,s_listaTipoDoc,s_listaRol,s_listaSedes,s_registraUser} from '@/API'
+import {s_listaSexo,s_listaTipoDoc,s_listaRol,s_listaSedes,s_registraUser,s_ListaSecciones,Func_LlenaCeros} from '@/API'
 export default {
     name:'AddUser',
     data(){
@@ -163,19 +182,24 @@ export default {
             },
             sede: {
                 id: null
+            },
+            grupo:{
+                id:null
             }
         },
         tiposDoc:[],
         tipoSexo:[],
         tipoRol:[],
-        Sedes:[]
+        Sedes:[],
+        LstaSecciones:null
         }
     },
     created(){
         this.listaTipoDoc(),
         this.ListaTipoSexo(),
         this.listaRoles(),
-        this.listaSedes()
+        this.listaSedes(),
+        this.ListarSecciones()
     },
     methods:{
         listaTipoDoc(){
@@ -222,6 +246,21 @@ export default {
                 }
             )
         },
+         ListarSecciones:function(){
+            s_ListaSecciones().then(
+                response =>{
+                    this.LstaSecciones = response.data
+                    for(let i = 0 ; i < response.data.length; i++ ){
+                        this.LstaSecciones[i].NombreAndId =  this.LlenaCeros(response.data[i].id,5,'SEC') +" - "+ response.data[i].carrera.nombre +" - "+response.data[i].turno.nombreturno
+                    }
+                }
+            ).catch(
+                error =>{
+                    console.error(error)
+                }
+            )
+        }
+        ,
         guardarUsuario(){
             s_registraUser(this.usuario).then(
                 response =>{
@@ -232,6 +271,8 @@ export default {
                     console.error(error)
                 }
             )
+        },LlenaCeros (numero , cantidadCeros,letra){
+            return  Func_LlenaCeros(numero , cantidadCeros,letra)
         }
     },
     computed:{

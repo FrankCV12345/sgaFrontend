@@ -45,7 +45,9 @@ export const s_ListaCursos = ()=>{
 export const s_RegistraCurso = (params)=>{
     return AXIOS.post('Curso',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
-
+export const s_EliminaCurso = (id)=>{
+    return AXIOS.delete('Curso/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
 export const s_EditaCurso = (params)=>{
     return AXIOS.put('Curso',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }

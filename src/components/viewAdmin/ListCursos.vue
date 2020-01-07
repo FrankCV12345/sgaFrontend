@@ -13,7 +13,7 @@
             </v-row>
             <v-list>
                 <v-list-item v-for="curso in listaCursos" :key="curso.id">
-                    <v-btn icon>
+                    <v-btn icon @click="dialogConfirmElimina = true , idDeleted = curso.id">
                         <v-icon>mdi-delete</v-icon>
                     </v-btn>
                     <v-btn icon @click="OpenDialoEditCurso(curso)">
@@ -51,11 +51,21 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="dialogConfirmElimina" max-width="350px" persistent>
+            <v-card>
+                <v-card-title>Esta seguro que quiere eliminar este curso ? </v-card-title>
+                <v-spacer></v-spacer>
+                <v-card-actions>
+                    <v-btn color="red darken-4"  class="white--text" @click="deleteCurso()" >Eliminar</v-btn>
+                    <v-btn @click="dialogConfirmElimina = false">Cancelar</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         <v-snackbar v-model="snackBar" :color="colorSnakBar" :timeout="timeout" >{{textoSnackBar}}</v-snackbar>
     </v-layout>
 </template>
 <script>
-import {s_ListaCursos, s_EditaCurso} from '@/API'
+import {s_ListaCursos, s_EditaCurso,s_EliminaCurso} from '@/API'
 export default {
     name:'ListaCursos',
     data(){
@@ -70,7 +80,11 @@ export default {
             colorSnakBarSuces:'cyan darken-2',
             colorSnackBarError:'error',
             textoSnackBar:'',
-            timeout:2000
+            timeout:2000,
+            dialogConfirmElimina:false,
+            EliminaStatus:false,
+            idDeleted:null
+
         }
     },
     methods:{
@@ -106,6 +120,20 @@ export default {
                     this.dialoEditcurso = false
                 }
             )
+        },
+        deleteCurso(){
+           
+                s_EliminaCurso(this.idDeleted).then(
+                    response =>{
+                        console.log(response)
+                    }
+                ).catch(
+                    error =>{
+                        console.log(error)
+                    }
+
+                )
+            
         }
     },
     created(){
