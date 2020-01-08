@@ -1,26 +1,44 @@
 <template>
     <v-layout>
         <v-flex sm12>
-            <v-list>
-                <v-list-item v-for="seccion in listaSecciones" :key="seccion.id" >
-                        <v-btn icon>
+            <v-row>
+                <v-col sm="8" ></v-col>
+                <v-col sm="4" >
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-glasses"
+                        label="Buscar"
+                        single-line
+                        hide-details
+                    >
+                    </v-text-field>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col sm="12" >
+                    <v-data-table
+                    :headers="headers"
+                    :items="listaSecciones"
+                    :search="search"
+                    >
+                        <template v-slot:item.action={item} >
+                             
+                             <v-btn icon>
                             <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                        <v-btn icon @click="VerModalEditSeccion(seccion)">
-                            <v-icon>mdi-grease-pencil</v-icon>
-                        </v-btn>
-                        <v-btn icon @click="verSeccion()" >
-                            <v-icon>mdi-eye</v-icon>
-                        </v-btn>
-                        <v-list-item-content>
-                            <v-list-item-title  > {{' Nombre de Carrera : '+seccion.carrera.nombre }}</v-list-item-title>
-                            <v-list-item-subtitle >{{'ID: '+llenaCeros(seccion.id,4,'S')}}</v-list-item-subtitle>
-                            <v-list-item-subtitle >Fecha de inicio : {{seccion.fechaInicio}}</v-list-item-subtitle>
-                            <v-list-item-subtitle >Fecha de Fin : {{seccion.fechaFin}}</v-list-item-subtitle>
-                            <v-list-item-subtitle >Ciclo : {{seccion.ciclo.nrociclo}}</v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
+                            </v-btn>
+                            
+                            <v-btn icon @click="VerModalEditSeccion(item)">
+                                <v-icon>mdi-grease-pencil</v-icon>
+                            </v-btn>
+                            
+                            <v-btn icon @click="verSeccion()" >
+                                <v-icon>mdi-eye</v-icon>
+                            </v-btn>
+                        
+                        </template>
+                    </v-data-table>
+                </v-col>
+            </v-row>
         </v-flex>
         <v-dialog v-model="dialogEditSeccion" scrollable persistent max-width="980px" >
                 <v-card  style="height: 700px;">
@@ -83,7 +101,6 @@
                                     </v-menu>
                                 </v-col>
                             </v-row>
-                            
                             <v-row>
                                 <v-col sm6>
                                     <v-select
@@ -189,15 +206,42 @@ export default {
             listaModalidades:[{nombre:'',id:''}],
             listaTurnos:[{nombreturno:null, id:null}],
             listaCarreras:[],
-            listaCicloParaCarrera:[]
+            listaCicloParaCarrera:[],
+            search:'',
+            headers:[
+                {
+                    text: 'Seccion',
+                    value: 'idConCeros',
+                },{
+                    text:'Carrera',
+                    value:'carrera.nombre'
+                },{
+                    text:'Ciclo',
+                    value:'ciclo.nrociclo'
+                },{
+                    text:'Fecha Inicio',
+                    value:'fechaInicio'
+                },{
+                    text:'Fecha Fin',
+                    value:'fechaFin'
+                },
+                { 
+                    text: 'Actions', 
+                    value: 'action',
+                    sortable: false 
+                }
+            ]
         }
     },
     methods:{
         ListarSecciones(){
             s_ListaSecciones().then(
                 response => {
+                    for(let  i = 0 ; i< response.data.length ; i ++){
+                        response.data[i].idConCeros =  this.llenaCeros(
+                            response.data[i].id,5,'SEC')
+                    }
                     this.listaSecciones =  response.data
-                    console.log(this.listaSecciones)
                 }).catch(
                 error => {
                     console.error(error)

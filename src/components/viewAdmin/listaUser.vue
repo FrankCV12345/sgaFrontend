@@ -1,20 +1,37 @@
 <template>
     <v-layout>
         <v-flex sm12>
-            <v-list>
-                <v-list-item v-for="user in listaUsers" :key='user.id' >
-                    <v-btn icon>
-                        <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="detalleUser(user)">
-                        <v-icon>mdi-eye</v-icon>
-                    </v-btn>
-                    <v-list-item-content>
-                        <v-list-item-title v-text="user.nombre" ></v-list-item-title>
-                        <v-list-item-subtitle v-text="user.rol.nombreRol"></v-list-item-subtitle>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
+            <v-row>
+                <v-row>
+                    <v-col sm="8" ></v-col>
+                    <v-col sm="4">
+                        <v-text-field
+                        v-model="search"
+                        append-icon="mdi-glasses"
+                        label="Buscar"
+                        single-line
+                        hide-details
+                        >
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+                <v-col sm="12">
+                    <v-data-table
+                        :headers="headers"
+                        :items="listaUsers"
+                        :search="search"
+                    >
+                        <template v-slot:item.action={item}  >
+                            <v-btn icon>
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                            <v-btn icon @click="detalleUser(item)">
+                                <v-icon>mdi-eye</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-data-table>
+                </v-col>
+            </v-row>
         </v-flex>
         <v-dialog persistent scrollable max-width="600px" v-model="dialogViewUser" >
             <v-card style="height: 400px;">
@@ -64,7 +81,33 @@ export default {
             listaUsers :[],
             dialogViewUser:false,
             userSelected:{id:'',nombre:'',apellidos:'',correo:'',telefono:'',rol:{id:'',nombreRol:''},grupo:{id:'',carrera:{id:'',nombre:''}}},
-            listaSecciones:[]
+            listaSecciones:[],
+            search:'',
+            headers:[
+                {
+                    text: 'Nombre',
+                    value: 'nombre',
+                },{
+                    text: 'Apellidos',
+                    value: 'apellidos',
+                },{
+                    text: 'Correo',
+                    value: 'correo',
+                },
+                {
+                    text: 'Rol',
+                    value: 'rol.nombreRol',
+                },
+                {
+                    text: 'Telefono',
+                    value: 'telefono',
+                },
+                { 
+                    text: 'Actions', 
+                    value: 'action',
+                    sortable: false 
+                }
+            ]
 
         }
     },
@@ -106,7 +149,6 @@ export default {
                     }
                     
                     this.listaSecciones = response.data
-                    console.log(this.listaSecciones)
                 }
             ).catch(
                 error =>{
