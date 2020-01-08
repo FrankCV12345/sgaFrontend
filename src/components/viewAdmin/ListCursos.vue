@@ -31,14 +31,14 @@
                 <v-card-text>
                     <v-row>
                         <v-col sm="12">
-                            <v-text-field v-model="cursoSelected.nombrecurso" >
+                            <v-text-field v-model="cursoSelected.nombrecurso" :counter="30" maxlength="30">
 
                             </v-text-field>
                         </v-col>
                     </v-row>
                     <v-row>
                         <v-col sm="12">
-                            <v-text-field v-model="cursoSelected.descripioncurso" >
+                            <v-text-field v-model="cursoSelected.descripioncurso" :counter="120" maxlength="120" >
 
                             </v-text-field>
                         </v-col>
@@ -125,11 +125,17 @@ export default {
            
                 s_EliminaCurso(this.idDeleted).then(
                     response =>{
-                        console.log(response)
+                        this.colorSnakBar = this.colorSnakBarSuces
+                        this.textoSnackBar = "Eliminado correctamente"
+                        this.snackBar= true
+                        this.dialogConfirmElimina = false
                     }
                 ).catch(
                     error =>{
-                        console.log(error)
+                        this.colorSnakBar = this.colorSnackBarError
+                        this.textoSnackBar = "No se pudo Eliminar"
+                        this.snackBar= true
+                        this.dialogConfirmElimina = false
                     }
 
                 )

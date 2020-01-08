@@ -5,7 +5,6 @@ export const s_listaSexo = ()=>{
 export const s_listaTipoDoc = ()=>{
     return AXIOS.get('TipoDNI',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
-
 export const s_listaRol = ()=>{
     return AXIOS.get('TipoRol',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
@@ -116,4 +115,22 @@ export const Func_LlenaCeros= (numero , cantidadCeros,letra) =>{
         }
     }
     return numeroRellenado
+}
+export const Func_TextoTipoError = (CodError) =>{
+
+    let Tipoerror = ''
+    switch(CodError){
+        case 500 :
+            Tipoerror ='Error interno'
+            break
+        case 401 :
+            Tipoerror='No Autorizado'
+            break
+        case 403:
+            Tipoerror='Datos invalidos'
+            break
+        default:
+            Tipoerror ='Error desconocido'
+    }
+    return Tipoerror
 }

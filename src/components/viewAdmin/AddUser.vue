@@ -7,6 +7,7 @@
                         :counter="80"
                         label="Nombre"
                         v-model="usuario.nombre"
+                        maxlength="80"
                         required
                     ></v-text-field>
                     
@@ -15,6 +16,7 @@
                         :counter="120"
                         v-model="usuario.apellidos"
                         required
+                        maxlength="120"
                     ></v-text-field>
                     
                     
@@ -23,6 +25,8 @@
                         label="DNI"
                         v-model="usuario.dni"
                         required
+                        type="number"
+                        maxlength="7"
                     ></v-text-field>
                     
                     
@@ -30,14 +34,18 @@
                         label="Telefono"
                         v-model="usuario.telefono"
                         :counter="9"
+                        type="number"
                         required
+                        maxlength="9"
                     ></v-text-field>
                     
                     <v-text-field
                         label="E-mail"
                         :counter="180"
                         v-model="usuario.correo"
+                        :rules="[rules.mail]"
                         required
+                        maxlength="180"
                     ></v-text-field>
                     
                     <v-text-field
@@ -45,6 +53,7 @@
                         v-model="usuario.direcion"
                         :counter="220"
                         required
+                        maxlength="220"
                     ></v-text-field>
                     <v-menu
                     ref="menu"
@@ -106,6 +115,7 @@
                             :counter="220"
                             v-model="usuario.nombreColegio"
                             required
+                            maxlength="220"
                             ></v-text-field>
                         </v-col>
                         <v-col sm="4" >
@@ -150,24 +160,35 @@
     </v-form>
 
         </v-flex>
-            
+        <!--<Appsnackbar 
+            v-if="showNackBar"
+            :snackBar="showNackBar" 
+            :text="messageSnackBar" 
+            :timeout="timeout" 
+            :color="colorSnackBar" 
+        />-->
+        <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+            {{messageSnackBar}}
+            <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+            </v-snackbar>
     </v-layout>
-        
 </template>
-
 <script>
-import {s_listaSexo,s_listaTipoDoc,s_listaRol,s_listaSedes,s_registraUser,s_ListaSecciones,Func_LlenaCeros} from '@/API'
+import Appsnackbar from '@/components/snackBar'
+import {s_listaSexo,s_listaTipoDoc,s_listaRol,s_listaSedes,s_registraUser,s_ListaSecciones,Func_LlenaCeros,Func_TextoTipoError} from '@/API'
+import {Func_IsNulOrEmpty} from '@/validations/validate.js'
 export default {
     name:'AddUser',
+    components:{Appsnackbar} ,
     data(){
         return {
          usuario :{
-            nombre: '',
-            apellidos: '',
-            direcion: '',
-            dni: '',
-            correo: '',
-            telefono: '',
+            nombre: null,
+            apellidos: null,
+            direcion: null,
+            dni: null,
+            correo: null,
+            telefono: null,
             nombreColegio: null,
             fechaNacimiento: new Date().toISOString().substr(0, 10),
             sexo: {
@@ -191,7 +212,19 @@ export default {
         tipoSexo:[],
         tipoRol:[],
         Sedes:[],
-        LstaSecciones:null
+        LstaSecciones:null,
+        showNackBar:false,
+        messageSnackBar:'',
+        timeout:2000,
+        colorSnackBar:'', 
+        colorSnakBarSuces:'cyan darken-2',
+        colorSnackBarError:'error',
+        rules:{
+            mail: value => {
+                const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                return pattern.test(value) || 'e-mail Invalido'
+            }
+        }
         }
     },
     created(){
@@ -256,23 +289,66 @@ export default {
                 }
             ).catch(
                 error =>{
-                    console.error(error)
+                    this.messageSnackBar='Error al listar Secciones.'
+                    this.colorSnackBar = this.colorSnackBarError
+                    this.showNackBar =true
                 }
             )
         }
         ,
-        guardarUsuario(){
-            s_registraUser(this.usuario).then(
+        guardarUsuario(){ 
+            let usuario = this.usuario
+            let isNullOrEmpty = this.evaluaNullOrEmpty(
+                [
+                    usuario.nombre , 
+                    usuario.apellidos,
+                    usuario.direcion,
+                    usuario.dni,
+                    usuario.correo,
+                    usuario.telefono,
+                    usuario.rol.id,
+                    usuario.sexo.id,
+                    usuario.tipoDoc.id
+                ]
+                 )
+
+
+            if(!isNullOrEmpty && !this.ValidaCamposParaAlumno(usuario)){
+                s_registraUser(usuario).then(
                 response =>{
-                    console.log(response.data)
+                    this.showNackBar = true
+                    this.messageSnackBar='Usuario Registrado'
+                    this.colorSnackBar = this.colorSnakBarSuces       
                 }
-            ).catch(
-                error =>{
-                    console.error(error)
-                }
-            )
+                ).catch(
+                    error =>{
+                        this.messageSnackBar = Func_TextoTipoError(error.response.status)
+                        this.colorSnackBar= this.colorSnackBarError
+                        this.showNackBar = true
+                    }
+                )
+            }else{
+                this.messageSnackBar = 'Campos invalidos o vacios'
+                this.colorSnackBar= this.colorSnackBarError
+                this.showNackBar = true
+
+            }
+            
         },LlenaCeros (numero , cantidadCeros,letra){
             return  Func_LlenaCeros(numero , cantidadCeros,letra)
+        },evaluaNullOrEmpty(arreglo){
+            return Func_IsNulOrEmpty(arreglo)
+        },ValidaCamposParaAlumno(usuario){
+            let isAlumno = usuario.rol.id == 1 ? true : false
+            if(isAlumno){
+                if(usuario.sede.id == null || usuario.nombreColegio == null || usuario.grupo.id == null ){
+                    return true
+                }else{
+                    return false
+                }
+            }else{
+                return false
+            }
         }
     },
     computed:{

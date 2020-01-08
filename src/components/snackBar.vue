@@ -1,7 +1,7 @@
 <template>
     <v-snackbar
     :timeout="timeout"
-    :color="color"
+    :color="back"
     v-model="showSnack">
     {{text}}
     <v-btn dark  text @click="showSnack = false" >
@@ -12,13 +12,13 @@
 
 <script>
 export default {
-    name:"App-snack-bar",
-    props:['snackBar','timeout','text'],
+    name:"Appsnackbar",
+    props:['snackBar','timeout','text','color'],
     data(){
         return{
-            color:'primary',
+            back:this.color,
             mode:'horizontal',
-            showSnack:  this.snackBar
+            showSnack: this.snackBar
         }
     }
 }

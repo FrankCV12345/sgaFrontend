@@ -33,15 +33,16 @@
                 <v-btn text @click="snackBar = false">
                     Cerrar
                 </v-btn>
-            </v-snackbar>    
+            </v-snackbar>
+        <!--<Appsnackbar  :snackBar="prba" :text="textoSnackBar" :timeout="timeout" :color="colorSnakBarSuces" /> !-->
         </v-container>
 </template>
 <script>
 import {AXIOS} from '../config/axios'
-import appSnackBaar from '@/components/snackBar'
+import Appsnackbar from '@/components/snackBar'
 export default {
     name : 'login',
-    components:{appSnackBaar} ,
+    components:{Appsnackbar} ,
     data() {
         return {
             msg: 'Welcome to Your Vue.js App',
@@ -52,8 +53,9 @@ export default {
             colorSnakBar:'',
             colorSnakBarSuces:'cyan darken-2',
             colorSnackBarError:'error',
-            textoSnackBar:'',
-            validForm:false
+            textoSnackBar:'--',
+            validForm:false,
+            prba:true
             
         }
     },
