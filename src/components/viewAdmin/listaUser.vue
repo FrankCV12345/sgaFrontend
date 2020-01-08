@@ -3,7 +3,7 @@
         <v-flex sm12>
             <v-row>
                 <v-row>
-                    <v-col sm="8" ></v-col>
+                    <v-col sm="8" ><h1>Lista de Usuarios</h1></v-col>
                     <v-col sm="4">
                         <v-text-field
                         v-model="search"

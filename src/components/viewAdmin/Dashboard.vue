@@ -1,6 +1,11 @@
 <template>
     <v-container>
         <v-row>
+            <v-col sm="12">
+                <h1> REPORTES </h1>
+            </v-col>
+        </v-row>
+        <v-row>
                 <v-col md="4" sm="6" xs="12" >
                     <v-card>
                         <v-card-title>Profeosres Calificados</v-card-title>

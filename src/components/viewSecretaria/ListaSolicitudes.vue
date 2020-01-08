@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col sm="12">
-                <h2>Solicitudes de los alumnos</h2>
+                <h2>Solicitudes pendientes</h2>
             </v-col>
         </v-row>
         <v-row>

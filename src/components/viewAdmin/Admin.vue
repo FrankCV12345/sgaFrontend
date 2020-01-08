@@ -1,48 +1,7 @@
 <template>
     <v-layout>
-     <v-flex xs12 sm3 >
-        <v-navigation-drawer permanent width="80%" >
-            <v-toolbar flat>
-                <v-list>
-                    <v-list-item-content>
-                        <v-list-item-title class="title"><b>Administracion</b></v-list-item-title>
-                    </v-list-item-content>
-                </v-list>
-             </v-toolbar>
-                    <v-divider/>
-            <v-list>
-                 <v-expansion-panels focusable>
-                      <v-expansion-panel
-                            v-for="(item,i) in  itemsMenuAdminUser"
-                            :key="i"
-                        >
-                             <v-expansion-panel-header>{{item.title}}</v-expansion-panel-header>  
-                            <v-expansion-panel-content>
-                                 <v-list>
-                                    <v-list-item
-                                    v-for="i in item.items" :key="i.title"
-                                    :to="i.to"
-                                    >
-                                        <v-list-item-icon>
-                                            <v-icon  >{{i.icon}}</v-icon>
-                                        </v-list-item-icon>
-                                        <v-list-item-content>
-                                            <v-list-item-title > {{ i.title }} </v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </v-list>
-                                
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
-                 </v-expansion-panels>
-            </v-list>
-                
-                
-        </v-navigation-drawer>
-      </v-flex>
-      <v-flex sm9>
-                    <router-view />
-          
+      <v-flex sm="12">
+            <router-view />
       </v-flex>
     </v-layout>
 </template>

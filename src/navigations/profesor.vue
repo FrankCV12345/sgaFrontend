@@ -1,14 +1,12 @@
 <template>
     <div>
         <v-toolbar
-
             dark
-            color="secondary"
+            color="teal darken-3"
         >
             <v-app-bar-nav-icon @click="toggleDrawer" />
-            
-            <v-spacer/>
-  
+             <v-toolbar-title>Profesor</v-toolbar-title>
+            <v-spacer/>  
             <v-btn icon @click="logunt">
             <v-icon>mdi-logout</v-icon>
             </v-btn>
@@ -24,18 +22,19 @@
                 >
                 <v-divider/>
                 
-                <v-list-item
-                    v-for="item in items" :key="item.title"
-                    
-                >
-                    <v-list-item-icon>
-                        <v-icon>{{item.icon}}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
-                    </v-list-item-content>
-                    
-                </v-list-item>
+                 <v-list>
+                    <v-list-group v-for="item in itemsMenu " :key="item.title" no-action >
+                        <template v-slot:activator>
+                            <v-list-item-title v-text="item.title"></v-list-item-title>
+                        </template>
+                        <v-list-item v-for="subitem in item.Subitems" :key="subitem.title" :to="subitem.to" >
+                            <v-icon>{{subitem.icon}}</v-icon>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="subitem.title" ></v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list-group>
+                </v-list>
                 
                 <v-divider/>
 
@@ -64,6 +63,14 @@ export default {
                     items :[
                         {title : 'Ingresar Nota',icon:'mdi-pen', to:'/calificaciones'},
                          {title : 'Cerrar Sesion',icon:'mdi-logout', to: '/salir'}
+                    ],
+                     itemsMenu :[
+                        {
+                            title:'Notas Alumno', Subitems:[
+                                {title:'Mi Cursos', icon:'mdi-library', to:'/docente/listaCursosDocente'}
+                            ]
+                        }
+                            
                     ]
             }
     }

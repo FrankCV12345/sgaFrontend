@@ -2,7 +2,10 @@
     <v-layout>
         <v-flex sm12>
             <v-row>
-                <v-col sm="4">
+                <v-col sm="8" xs="12" >
+                    <h1>Lista de Cursos</h1>
+                </v-col>
+                <v-col sm="4" xs="12"  >
                     <v-text-field
                     v-model="search"
                     flat

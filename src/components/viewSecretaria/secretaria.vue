@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row>
-            <v-col sm="3">
+            <!--<v-col sm="3">
                 <v-list>
                     <v-list-group v-for="item in itemsMenu " :key="item.title" no-action >
                         <template v-slot:activator>
@@ -15,8 +15,8 @@
                         </v-list-item>
                     </v-list-group>
                 </v-list>
-            </v-col>
-            <v-col sm="9">
+            </v-col>-->
+            <v-col sm="12">
                  <router-view />
             </v-col>
         </v-row>
