@@ -20,24 +20,37 @@
                 </v-list>
             </v-col>
         </v-row>
-        <v-dialog persistent scrollable v-model="dialoglistaAlumnos" v-if="ListaAlumnos != null" max-width="600px" >
+        <v-dialog persistent scrollable v-model="dialoglistaAlumnos" v-if="ListaAlumnos != null" max-width="900px" >
             <v-card>
                 <v-card-title>Curso : <b> {{cursoSelected.nombreCurso }}</b></v-card-title>
                 <v-card-subtitle>Seccion : {{llenaCeros(ListaAlumnos[0].id,5,'SEC') }} </v-card-subtitle>
                 <v-spacer></v-spacer>
                 <v-card-text>
                     <v-row>
-                        <v-col sm="12">
-                            <v-list>
-                                <v-list-item v-for="alumno in ListaAlumnos " :key="alumno.id">
-                                    <v-btn icon @click="ServicioNotas(alumno)">
-                                        <v-icon>mdi-calendar-plus</v-icon>
+                        <v-col sm="8" ></v-col>
+                        <v-col sm="4" >
+                            <v-text-field
+                                v-model="searchAlumno"
+                                label="Buscar Alumno"
+                                append-icon="mdi-glasses"
+                                single-line
+                                hide-details
+                            ></v-text-field>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col sm="12" >
+                            <v-data-table
+                            :headers="headers"
+                            :items="ListaAlumnos"
+                            :search="searchAlumno"
+                            >
+                                <template v-slot:item.action={item}  >
+                                    <v-btn icon @click="ServicioNotas(item)">
+                                        <v-icon>mdi-grease-pencil</v-icon>
                                     </v-btn>
-                                    <v-list-item-content>
-                                        <v-list-item-title>{{alumno.nombre +" "+alumno.apellidos}}</v-list-item-title>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-list>
+                                </template>
+                            </v-data-table>
                         </v-col>
                     </v-row>
                 </v-card-text>
@@ -97,6 +110,11 @@
                         </v-btn>
                     </v-card-actions>
                 </v-card>
+                
+        <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+            {{messageSnackBar}}
+            <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+        </v-snackbar>
         </v-dialog>
     </v-container>
 </template>
@@ -121,7 +139,32 @@ export default {
                 curso:{id:null}
             },
             alumnoSelected : null,
-            cursoSelected: null
+            cursoSelected: null,
+            headers:[
+                {
+                    text:"Nombre",
+                    value:'nombre'
+                },
+                {
+                    text:"Apellidos",
+                    value:'apellidos'
+                },{
+                    text:"Correo",
+                    value:'correo'
+                },
+                { 
+                    text: '', 
+                    value: 'action',
+                    sortable: false 
+                }
+            ],
+            searchAlumno:'',
+            showNackBar:false,
+            messageSnackBar:'',
+            timeout:2000,
+            colorSnackBar:'', 
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error',
         }
     },
     methods:{
@@ -139,10 +182,11 @@ export default {
         },
         listarAlumnos(curso){
             this.cursoSelected = curso
-            console.log(this.cursoSelected)
+            
             s_ListaAlumnosPorGrupo(curso.idGrupo).then(
                 response =>{   
                     this.ListaAlumnos = response.data
+                    console.log(this.ListaAlumnos)
                     this.dialoglistaAlumnos = true
                 }   
             ).catch(
@@ -161,17 +205,22 @@ export default {
                 response => {
                     this.notaSelected = response.data
                     this.dialognotasAlulmno =  true
+                    this.messageSnackBar ="Nota Registrada"
+                    this.colorSnackBar = this.colorSnakBarSuces
+                    this.showNackBar = true
                 }
             ).catch(
                 error =>{
-
+                    this.messageSnackBar ="Error al Registrar nota"
+                    this.colorSnackBar = this.colorSnackBarError
+                    this.showNackBar = true
                 }
             )
-        },evaluaNotas(numero){
-            if(numero == null){
-                return false
-            }else if( numero != null ){
+        },NotaIsCorrect(numero){
+            if(numero !== null && numero >=0 && numero <=20){
                 return true
+            }else{
+                return false
             }
         },
         cerrarDialog(){

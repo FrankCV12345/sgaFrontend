@@ -102,6 +102,17 @@ export const s_RegistraNota = (params)=>{
 export const s_ListaAlumnosPorGrupo = (idGrupo)=>{
     return AXIOS.get('/usuario/AlumnosPorGrupo/'+idGrupo,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+export const s_ReporteResumen = ()=>{
+    return AXIOS.get('/Reportes/resumenCantidades',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_ReporteCantregistradosporFecha = ()=>{
+    return AXIOS.get('/Reportes/cantidaAlumnoRegistradosPorFecha',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
+export const s_ReportePorSecciones = ()=>{
+    return AXIOS.get('/Reportes/cantidadAlumnosPorSeccion',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
 
 
 export const Func_LlenaCeros= (numero , cantidadCeros,letra) =>{

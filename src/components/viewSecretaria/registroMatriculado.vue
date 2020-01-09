@@ -148,10 +148,15 @@
                 
             </v-col>
         </v-row>
+        <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+            {{messageSnackBar}}
+            <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 <script>
 import {s_listaSexo,s_listaTipoDoc,s_listaSedes,s_registraUser,s_ListaSecciones, Func_LlenaCeros} from '@/API'
+import {Func_IsNulOrEmpty} from '@/validations/validate.js'
 export default {
     name:'registroMatricula',
     data(){
@@ -163,7 +168,13 @@ export default {
             LstSexo:null,
             LstaSedes:null,
             LstaSecciones:null,
-            errores:[]
+            errores:[],
+            showNackBar:false,
+            messageSnackBar:'',
+            timeout:2000,
+            colorSnackBar:'', 
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error'
         }
     },
     methods:{
@@ -216,10 +227,16 @@ export default {
         RegistrarAlumno(){
             s_registraUser(this.NewAlumno).then(
                 response =>{
+                    this.messageSnackBar ="Alumno Registrado"
+                    this.colorSnackBar = this.colorSnakBarSuces
+                    this.showNackBar = true
                     console.log(response)
                 }
             ).catch(
-                error =>{
+                error =>{   
+                    this.messageSnackBar ="Error al Registrar"
+                    this.colorSnackBar = this.colorSnackBarError
+                    this.showNackBar = true
                     console.error(error)
                 }
             )
@@ -227,6 +244,7 @@ export default {
         ,LlenaCerros(numero , cantidadCeros,letra){
             return Func_LlenaCeros(numero , cantidadCeros,letra)
         }
+        
     },
     created(){
         this.ListarSexo(),

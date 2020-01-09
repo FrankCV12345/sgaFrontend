@@ -32,7 +32,7 @@
                         <template v-slot:activator>
                             <v-list-item-title v-text="item.title"></v-list-item-title>
                         </template>
-                        <v-list-item v-for="subitem in item.items" :key="subitem.title" :to="subitem.to" >
+                        <v-list-item v-for="subitem in item.items" :key="subitem.title" :to="subitem.to" @click="toggleDrawer" >
                             <v-icon>{{subitem.icon}}</v-icon>
                             <v-list-item-content>
                                 <v-list-item-title v-text="subitem.title" ></v-list-item-title>

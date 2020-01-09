@@ -170,7 +170,7 @@
         <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
             {{messageSnackBar}}
             <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
-            </v-snackbar>
+        </v-snackbar>
     </v-layout>
 </template>
 <script>
