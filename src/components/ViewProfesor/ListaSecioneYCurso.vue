@@ -233,7 +233,7 @@ export default {
                 nota1: null,
                 nota2: null,
                 nota3: null,
-                examenfinal: 0.0,
+                examenfinal: null,
                 estadoaprobado: null,
                 fechaaultimaActualizacion: null,
                 alumno:{id:null},

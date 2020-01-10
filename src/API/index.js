@@ -17,6 +17,14 @@ export const s_registraUser = (params)=>{
 export const s_ListaUsers = ()=>{
     return AXIOS.get('usuario',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+
+export const s_InHabilitaUsuario = (id)=>{
+    return AXIOS.delete('usuario/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_HabilitaUsuario = (id)=>{
+    return AXIOS.get('/usuario/HabilitarUsuario/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
 export const s_ActulizaUsers = (id,params)=>{
     return AXIOS.put('usuario/'+id,params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }

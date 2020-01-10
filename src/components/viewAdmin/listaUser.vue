@@ -22,8 +22,11 @@
                         :search="search"
                     >
                         <template v-slot:item.action={item}  >
-                            <v-btn icon>
+                            <v-btn color="red darken-3" icon @click="delteUser(item,false)" v-if="item.habilitado == true">
                                 <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                            <v-btn color="blue darken-3" icon v-else @click="habilitarUser(item)" >
+                                <v-icon>mdi-account-check</v-icon>
                             </v-btn>
                             <v-btn icon @click="detalleUser(item)">
                                 <v-icon>mdi-eye</v-icon>
@@ -70,10 +73,21 @@
             </v-card>
             
         </v-dialog>
+        <v-dialog v-model="DialogConfirmDisableOrEnabled"  persistent max-width="300px">
+            <v-card>
+                <v-card-text><h3>Desea Deshabilitar Este usuario ?</h3></v-card-text>
+                <v-card-actions>
+                    
+                    <v-btn color="red darken-3" class="white--text" @click="delteUser(undefined,true)"> SI</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn  @click="DialogConfirmDisableOrEnabled = false">NO</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-layout>
 </template>
 <script>
-import {s_ListaUsers,s_ListaSecciones,s_ActulizaUsers} from '@/API'
+import {s_ListaUsers,s_ListaSecciones,s_ActulizaUsers,s_InHabilitaUsuario,s_HabilitaUsuario} from '@/API'
 export default {
     name:'listaUser',
     data(){
@@ -81,8 +95,10 @@ export default {
             listaUsers :[],
             dialogViewUser:false,
             userSelected:{id:'',nombre:'',apellidos:'',correo:'',telefono:'',rol:{id:'',nombreRol:''},grupo:{id:'',carrera:{id:'',nombre:''}}},
+            userEnabledOrDisabled:null,
             listaSecciones:[],
             search:'',
+            DialogConfirmDisableOrEnabled:false,
             headers:[
                 {
                     text: 'Nombre',
@@ -133,13 +149,28 @@ export default {
             )
         },
         detalleUser(user){
-            console.log(user)
             this.userSelected=user;
             this.dialogViewUser = true;
 
         },
-        delteUser(id){
+        delteUser(item,isConfirm){
+            if(isConfirm && item == undefined){      
+                s_InHabilitaUsuario(this.userEnabledOrDisabled.id).then(
+                    response =>{
+                        this.userEnabledOrDisabled.habilitado = response.data
+                        this. listarUsers()
+                        this.DialogConfirmDisableOrEnabled = false
+                    }
+                ).catch(
+                    error =>{
+                        console.error(error)
+                    }
+                )
+            }else{
 
+                this.userEnabledOrDisabled = item
+                this.DialogConfirmDisableOrEnabled = true
+            }
         },
         listarSesciones(){
             s_ListaSecciones().then(
@@ -168,6 +199,18 @@ export default {
             }
             return numeroRellenado
         },
+        habilitarUser(item){
+            s_HabilitaUsuario(item.id).then(
+                response =>{
+                    this.listarUsers()
+                }
+            ).catch(
+                error =>{
+
+                }
+            )
+        }
+        ,
         ActualizaUsuario(){
             s_ActulizaUsers(this.userSelected.id,this.userSelected).then(
                 response => {
