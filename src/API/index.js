@@ -46,6 +46,11 @@ export const s_RegistraSeccion = (params)=>{
 export const s_ListaSecciones = ()=>{
     return AXIOS.get('Grupo',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+
+export const s_ModificaGrupo = (params)=>{
+    return AXIOS.put('Grupo',params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
 export const s_ListaCursos = ()=>{
     return AXIOS.get('Curso',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
@@ -120,6 +125,9 @@ export const s_ReporteCantregistradosporFecha = ()=>{
 
 export const s_ReportePorSecciones = ()=>{
     return AXIOS.get('/Reportes/cantidadAlumnosPorSeccion',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+export const s_EliminaCursoCarrera = (id)=>{
+    return AXIOS.delete('/CrusosCarreras/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
 
 

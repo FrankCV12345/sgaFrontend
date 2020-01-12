@@ -134,6 +134,10 @@
                         Cancelar
                     </v-btn>
             </v-form>
+             <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+            {{messageSnackBar}}
+            <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+        </v-snackbar>
         </v-flex>
     </v-layout>
 </template>
@@ -170,7 +174,13 @@ export default {
                     listaCarreras:[],
                     listaCicloParaCarrera:[],
                     listaProfesores:[],
-                    listaCursos:[]
+                    listaCursos:[],
+                    showNackBar:false,
+                    messageSnackBar:'',
+                    timeout:2000,
+                    colorSnackBar:'', 
+                    colorSnakBarSuces:'cyan darken-2',
+                    colorSnackBarError:'error',
         }
     },
     created(){
@@ -226,18 +236,49 @@ export default {
             )
         },
         guardarSeccion(){
-            s_RegistraSeccion(this.seccion).then(
-                response => {
-                    this.seccion.id=  response.data.id
-                    this.seccion.carrera =  response.data.carrera
-                    this.RegistraCursos()
-                    console.log("Registrado",response)
-                }
-            ).catch(
-                error=> {
-                    console.error(error)
-                }
-            )
+            if(this.seccion.cursos.length > 0){
+                s_RegistraSeccion(this.seccion).then(
+                    response => {
+                        this.seccion.id=  response.data.id
+                        this.seccion.carrera =  response.data.carrera
+                        this.RegistraCursos()
+                        
+                        this.showNackBar = true
+                        this.messageSnackBar = 'Seccion Registrada Correctamente'
+                        this.colorSnackBar = this.colorSnakBarSuces
+                        this.seccion =  {
+                            fechaInicio:'',
+                            fechaFin:'',
+                            softdelete: false,
+                            carrera: {
+                                id: null
+                            },
+                            turno: {
+                                id:null
+                            },
+                            ciclo: {
+                                id: null
+                            },
+                            modalidad: {
+                                id: null
+                            },
+                            cursos:[
+                                
+                            ]
+                            }
+                    }
+                ).catch(
+                    error=> {
+                        this.showNackBar = true
+                        this.messageSnackBar = 'Error al registrar'
+                        this.colorSnackBar = this.colorSnackBarError
+                    }
+                )
+            }else{
+                this.showNackBar = true
+                this.messageSnackBar = 'Debe agrega almenos 1 curso para esta seccion'
+                this.colorSnackBar = this.colorSnackBarError
+            }
         },
         listarProfesores(){
             s_ListaProfesores().then(
@@ -300,6 +341,9 @@ export default {
                 }
             ).catch(
                 error =>{
+                    this.showNackBar = true
+                    this.messageSnackBar = 'No se pudieron registrar cursos'
+                    this.colorSnackBar = this.colorSnackBarError
                     console.error(error)
                 }
             )

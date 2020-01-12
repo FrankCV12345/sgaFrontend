@@ -145,7 +145,7 @@
                                     ></v-select>
                                 </v-col>
                                 <v-col sm="2">
-                                    <v-btn icon @click="dialogConfitEliminaCurso =true">
+                                    <v-btn icon @click="dialogConfitEliminaCurso =true, idCursoDelete= curso.id">
                                         <v-icon color="red darken-2">mdi-playlist-remove</v-icon>
                                     </v-btn>
                                 </v-col>
@@ -154,8 +154,8 @@
                     </v-card-text>
                      <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" text @click="dialogEditSeccion = false">Close</v-btn>
-                        <v-btn color="blue darken-1" text @click="GuardarCursosParaSeccion()">Save</v-btn>
+                        <v-btn color="blue darken-1" text @click="dialogEditSeccion = false">Cerrar</v-btn>
+                        <v-btn color="blue darken-1" text @click="GuardarCursosParaSeccion()">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
         </v-dialog>
@@ -164,7 +164,7 @@
             <v-card>
                 <v-card-title>Desea Eliminar este curso ?</v-card-title>
                 <v-card-actions >
-                    <v-btn color="red darken-3" class="white--text" >SI</v-btn>
+                    <v-btn color="red darken-3" class="white--text" @click="EliminaCurso()" >SI</v-btn>
                     <v-btn color="blue darken-3" class="white--text" @click="dialogConfitEliminaCurso = false " >NO</v-btn>
                 </v-card-actions>
             </v-card>
@@ -172,7 +172,7 @@
     </v-layout>
 </template>
 <script>
-import {s_ListaModalidades, s_ListaTurnos,s_ListaCarreas,s_ListaCiclosParaCarrera,s_ListaSecciones, s_ListaProfesores,s_ListaCursos,s_ListaCursoPorGrupo,s_RegistraCursosGrupo} from '@/API'
+import {s_ModificaGrupo,s_EliminaCursoCarrera,s_ListaModalidades, s_ListaTurnos,s_ListaCarreas,s_ListaCiclosParaCarrera,s_ListaSecciones, s_ListaProfesores,s_ListaCursos,s_ListaCursoPorGrupo,s_RegistraCursosGrupo} from '@/API'
 export default {
     name:'listaSecciones',
     data(){
@@ -215,7 +215,8 @@ export default {
                     value: 'action',
                     sortable: false 
                 }
-            ]
+            ],
+            idCursoDelete:null
         }
     },
     methods:{
@@ -303,6 +304,7 @@ export default {
                 )
         },
         GuardarCursosParaSeccion(){
+            this.UpdatedGrupo()
             s_RegistraCursosGrupo(this.listaCursosEnGrupo).then(
                 response =>{
                     console.log(response)
@@ -353,7 +355,32 @@ export default {
                 }
             }
             return numeroRellenado
+        },
+        EliminaCurso(){
+            s_EliminaCursoCarrera(this.idCursoDelete).then(
+                response =>{
+                    this.dialogConfitEliminaCurso = false
+                    console.log("Eliminado")
+                }
+            ).catch(
+                error =>{
+                    console.error("Error")
+                }
+            )
+        },
+        UpdatedGrupo(){
+            s_ModificaGrupo(this.seccionSelecionada).then(
+                response =>{
+                    this.seccionSelecionada = response.data
+                    console.log(response.data)
+                }
+            ).catch(
+                error =>{
+                    console.error("Error")
+                }
+            )
         }
+
     },
     created(){
         this.ListarSecciones()
