@@ -130,14 +130,15 @@
                 
                     <v-btn
                         color="warning"
+                        @click="vaciar()"
                     >
                         Cancelar
                     </v-btn>
             </v-form>
              <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
-            {{messageSnackBar}}
-            <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
-        </v-snackbar>
+                {{messageSnackBar}}
+                <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+            </v-snackbar>
         </v-flex>
     </v-layout>
 </template>
@@ -329,6 +330,27 @@ export default {
             }
         },QuitarCurso(curso){
                 this.seccion.cursos.splice(this.seccion.cursos.indexOf(curso),1)
+        },vaciar(){
+             this.seccion =  {
+                            fechaInicio:'',
+                            fechaFin:'',
+                            softdelete: false,
+                            carrera: {
+                                id: null
+                            },
+                            turno: {
+                                id:null
+                            },
+                            ciclo: {
+                                id: null
+                            },
+                            modalidad: {
+                                id: null
+                            },
+                            cursos:[
+                                
+                            ]
+                            }
         },
         RegistraCursos(){
             for(let i =0 ; i < this.seccion.cursos.length; i++ ){

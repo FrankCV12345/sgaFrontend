@@ -169,6 +169,10 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+            {{messageSnackBar}}
+            <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+        </v-snackbar>
     </v-layout>
 </template>
 <script>
@@ -216,7 +220,13 @@ export default {
                     sortable: false 
                 }
             ],
-            idCursoDelete:null
+            idCursoDelete:null,
+            showNackBar:false,
+            messageSnackBar:'',
+            timeout:2000,
+            colorSnackBar:'', 
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error',
         }
     },
     methods:{
@@ -307,10 +317,17 @@ export default {
             this.UpdatedGrupo()
             s_RegistraCursosGrupo(this.listaCursosEnGrupo).then(
                 response =>{
-                    console.log(response)
+                    this.showNackBar = true
+                    this.messageSnackBar = 'Echo'
+                    this.colorSnackBar  =  this.colorSnakBarSuces
+
                 }
             ).catch(
                 error=>{
+                    this.showNackBar = true
+                    this.messageSnackBar = 'Error'
+                    this.colorSnackBar  =  this.colorSnackBarError
+                    
                     console.error(error)
                 }
             )
