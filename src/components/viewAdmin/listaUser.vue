@@ -47,18 +47,14 @@
                     <p class="text-sm-left"><b> TELEFONO :</b> {{userSelected.telefono}}</p>
                     <p class="text-sm-left"><b> DNI :</b> {{userSelected.dni}}</p>
                     <v-row v-if="userSelected.rol.id ==  1 ">
-                        <v-col  class="text-sm-left" sm12 v-if="userSelected.grupo.id != null">
-                            
-                            <b> SECCION :</b> {{llenaCeros(userSelected.grupo.id,5,'S')}}
-                    
-                        </v-col>
-                        <v-col sm12 v-else >
+                        <v-col sm="12">
                             <v-select 
                             :items="listaSecciones"
                             item-text="idLLenado"
                             item-value="id"
                             v-model="userSelected.grupo.id"
-                            label="Selecione Seccion Grupo"
+                            label="Selecione Seccion "
+                            v-on:change="dialogConfirmSeccionAlumno = true"
                             ></v-select>
                                 
                         </v-col>
@@ -68,11 +64,10 @@
                 </v-card-text>
                 <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="blue darken-1" text @click="dialogViewUser = false">Close</v-btn>
-                            <v-btn color="blue darken-1" text @click="ActualizaUsuario()" >Save</v-btn>
+                            <v-btn color="blue darken-1" text @click="dialogViewUser = false">Cerrar</v-btn>
                 </v-card-actions>
             </v-card>
-            
+        
         </v-dialog>
         <v-dialog v-model="DialogConfirmDisableOrEnabled"  persistent max-width="300px">
             <v-card>
@@ -85,6 +80,23 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog max-width="350px" v-model="dialogConfirmSeccionAlumno" persistent >
+            <v-card>
+                <v-card-title>Desea cambiar la seccion ?</v-card-title>
+                <v-card-actions>
+                    <v-btn color="red darken-3" class="white--text" @click="ActualizaUsuario()" >
+                        SI
+                    </v-btn>
+                    <v-btn color="blue darken-3" class="white--text" @click="dialogConfirmSeccionAlumno = false">
+                        NO
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+            <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+                {{messageSnackBar}}
+                <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+            </v-snackbar>
     </v-layout>
 </template>
 <script>
@@ -93,6 +105,7 @@ export default {
     name:'listaUser',
     data(){
         return {
+            dialogConfirmSeccionAlumno:false,
             listaUsers :[],
             dialogViewUser:false,
             userSelected:{id:'',nombre:'',apellidos:'',correo:'',telefono:'',rol:{id:'',nombreRol:''},grupo:{id:'',carrera:{id:'',nombre:''}}},
@@ -124,7 +137,13 @@ export default {
                     value: 'action',
                     sortable: false 
                 }
-            ]
+            ],
+            showNackBar:false,
+            messageSnackBar:'',
+            timeout:2000,
+            colorSnackBar:'', 
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error',
 
         }
     },
@@ -177,9 +196,9 @@ export default {
             s_ListaSecciones().then(
                 response =>{
                     for(let i =0 ; i< response.data.length ; i ++){
-                        response.data[i].idLLenado = this.llenaCeros(response.data[i].id,5,'S')
+                        response.data[i].idLLenado = this.llenaCeros(response.data[i].id,5,'SEC') +' - Carrera :'+response.data[i].carrera.nombre+' - Turno : '+response.data[i].turno.nombreturno+' - Ciclo :'+response.data[i].ciclo.nrociclo
                     }
-                    
+                    console.log("Grupos",response.data)
                     this.listaSecciones = response.data
                 }
             ).catch(
@@ -207,19 +226,30 @@ export default {
                 }
             ).catch(
                 error =>{
+                    this.showNackBar = true
+                    this.messageSnackBar ='Error al Cambiar estado'
+                    this.colorSnackBar =  this.colorSnackBarError
 
                 }
             )
         }
         ,
         ActualizaUsuario(){
+            
             s_ActulizaUsers(this.userSelected.id,this.userSelected).then(
                 response => {
-                    console.log(response)
+                    this.userSelected = response.data
+                    this.showNackBar = true
+                    this.messageSnackBar  = 'Actualizado'
+                    this.colorSnackBar = this.colorSnakBarSuces
+                    this.dialogConfirmSeccionAlumno = false
                 }
             ).catch(
                 error =>{
-                    console.error(error)
+                    this.showNackBar = true
+                    this.messageSnackBar  = 'Error'
+                    this.colorSnackBar = this.colorSnackBarError
+                    this.dialogConfirmSeccionAlumno = false
                 }
             )
         }

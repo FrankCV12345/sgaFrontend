@@ -38,7 +38,6 @@
             </v-col>
             <v-col sm="3" >
                 <v-card color="light-blue darken-3" class="white--text">
-                   
                     <v-card-text class="white--text">
                         <div class="display-1 mb-2">
                             {{resumen.cantidad_profesores_calificados}}
@@ -50,10 +49,10 @@
         </v-row>
         <v-row>
                 <v-col md="4" sm="6" xs="12" >
-                    <v-card>
+                    <v-card >
                         <v-card-title>Profeosres Calificados</v-card-title>
                         <v-divider></v-divider>
-                        <v-card-text>
+                        <v-card-text >
                             <BarChar :chart-data="datacollectionBarPromediosProfesores" :options="chartOptionsBarPromedio" ></BarChar>
                         </v-card-text>
                     </v-card>
