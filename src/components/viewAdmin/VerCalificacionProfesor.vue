@@ -25,10 +25,14 @@
                 </v-card>
             </v-dialog>
         </v-flex>
+            <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+                {{messageSnackBar}}
+                <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+            </v-snackbar>
     </v-layout>
 </template>
 <script>
-import {s_ListaProfesores,s_VerPerfilProfesor} from '@/API'
+import {s_ListaProfesores,s_VerPerfilProfesor,Func_TextoTipoError} from '@/API'
 import RadarChart from './RadarChart.js'
 export default {
     components: {
@@ -40,7 +44,13 @@ export default {
         return {
             listaProfesores : [],
             datacollection: null,
-            DialogRadar:false
+            DialogRadar:false,
+            showNackBar:false,
+            messageSnackBar:'',
+            timeout:2000,
+            colorSnackBar:'', 
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error',
         }
     },
     methods:{
@@ -61,7 +71,10 @@ export default {
                 }
             ).catch(
                 error =>{
-                    console.error(error)
+                    this.showNackBar = true
+                    this.messageSnackBar = this.tipoError(error.response.status)
+                    this.colorSnackBar = this.colorSnackBarError
+                    
                 }
             )
         },
@@ -85,6 +98,8 @@ export default {
           ]
         },
       { responsive: true, maintainAspectRatio: false }
+      },tipoError(error){
+          return Func_TextoTipoError(error)
       }
     },
     created(){

@@ -235,7 +235,6 @@ export default {
         }
         ,
         ActualizaUsuario(){
-            
             s_ActulizaUsers(this.userSelected.id,this.userSelected).then(
                 response => {
                     this.userSelected = response.data

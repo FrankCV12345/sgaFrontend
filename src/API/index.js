@@ -156,6 +156,9 @@ export const Func_TextoTipoError = (CodError) =>{
         case 403:
             Tipoerror='Datos invalidos'
             break
+        case 404:
+            Tipoerror='Recurso no encontrado'
+            break
         default:
             Tipoerror ='Error desconocido'
     }
