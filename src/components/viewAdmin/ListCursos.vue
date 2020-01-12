@@ -14,20 +14,24 @@
                     ></v-text-field>
                 </v-col>
             </v-row>
-            <v-list>
-                <v-list-item v-for="curso in listaCursos" :key="curso.id">
-                    <v-btn icon @click="dialogConfirmElimina = true , idDeleted = curso.id">
-                        <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="OpenDialoEditCurso(curso)">
-                        <v-icon>mdi-grease-pencil</v-icon>
-                    </v-btn>
-                    <v-list-item-content>
-                        <v-list-item-title v-text="curso.nombrecurso"></v-list-item-title>
-                        <v-list-item-subtitle v-text="curso.descripioncurso"></v-list-item-subtitle>                    
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
+             <v-row>
+                <v-col sm="12" >
+                    <v-data-table
+                        :headers="headersListCursos"
+                        :items="listaCursos"
+                        :search="search"
+                    >
+                        <template v-slot:item.action={item} >
+                            <v-btn icon @click="dialogConfirmElimina = true , idDeleted = curso.id">
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                            <v-btn icon @click="OpenDialoEditCurso(item)">
+                                <v-icon>mdi-grease-pencil</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-data-table>
+                </v-col>
+            </v-row>
         </v-flex>
         <v-dialog v-model="dialoEditcurso" v-if="cursoSelected != null" persistent max-width="900px" >
             <v-card>
@@ -86,7 +90,19 @@ export default {
             timeout:2000,
             dialogConfirmElimina:false,
             EliminaStatus:false,
-            idDeleted:null
+            idDeleted:null,
+            headersListCursos:[
+                {
+                text:"Nombre del Curso",
+                value:"nombrecurso"
+                },{
+                text:"Descripcion",
+                value:"descripioncurso"
+                },{
+                    text:'',
+                    value:'action'
+                }
+            ]
 
         }
     },

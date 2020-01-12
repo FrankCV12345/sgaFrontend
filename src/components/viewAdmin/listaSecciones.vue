@@ -22,19 +22,9 @@
                     :search="search"
                     >
                         <template v-slot:item.action={item} >
-                             
-                             <v-btn icon>
-                            <v-icon>mdi-delete</v-icon>
-                            </v-btn>
-                            
                             <v-btn icon @click="VerModalEditSeccion(item)">
-                                <v-icon>mdi-grease-pencil</v-icon>
+                                <v-icon color="orange accent-3" >mdi-grease-pencil</v-icon>
                             </v-btn>
-                            
-                            <v-btn icon @click="verSeccion()" >
-                                <v-icon>mdi-eye</v-icon>
-                            </v-btn>
-                        
                         </template>
                     </v-data-table>
                 </v-col>
@@ -125,34 +115,18 @@
                             </v-row>
                             <!--Agregando cursos-->
                             <v-row>
-                                <v-col sm2>
+                                <v-col sm="3">
                                     <v-btn color="primary" @click="addCurso()">
                                         <v-icon>mdi-plus-box</v-icon>
                                         <span> Agregar Curso </span>
                                     </v-btn> 
                                 </v-col>
-                                <v-col sm2>
-
-                                </v-col>
-                                
-                                <v-col sm2>
-
-                                </v-col>
-                                
-                                <v-col sm2>
-
-                                </v-col>
-                                
-                                <v-col sm2>
-
-                                </v-col>
-                                
-                                <v-col sm2>
+                                <v-col sm="9">
 
                                 </v-col>
                             </v-row> 
                             <v-row v-for=" curso in listaCursosEnGrupo" :key="curso.id" >
-                                <v-col sm5>
+                                <v-col sm="5">
                                     <v-select 
                                     :items="listaCursos"
                                     item-text="nombrecurso"
@@ -161,7 +135,7 @@
                                     label="Seleciones Curso"
                                     ></v-select>
                                 </v-col>
-                                <v-col sm5>
+                                <v-col sm="5">
                                     <v-select 
                                     :items="listaProfesores"
                                     item-text="nombre"
@@ -170,9 +144,9 @@
                                     label="Seleciones profesor"
                                     ></v-select>
                                 </v-col>
-                                <v-col sm2>
-                                    <v-btn icon>
-                                        <v-icon>mdi-playlist-remove</v-icon>
+                                <v-col sm="2">
+                                    <v-btn icon @click="dialogConfitEliminaCurso =true">
+                                        <v-icon color="red darken-2">mdi-playlist-remove</v-icon>
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -185,6 +159,16 @@
                     </v-card-actions>
                 </v-card>
         </v-dialog>
+
+        <v-dialog v-model="dialogConfitEliminaCurso" max-width="350px" persistent >
+            <v-card>
+                <v-card-title>Desea Eliminar este curso ?</v-card-title>
+                <v-card-actions >
+                    <v-btn color="red darken-3" class="white--text" >SI</v-btn>
+                    <v-btn color="blue darken-3" class="white--text" @click="dialogConfitEliminaCurso = false " >NO</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-layout>
 </template>
 <script>
@@ -193,6 +177,7 @@ export default {
     name:'listaSecciones',
     data(){
         return {
+            dialogConfitEliminaCurso:false,
             listaSecciones:[],
             dialogEditSeccion:false,
             seccionSelecionada:{carrera:{},ciclo:{},fechaFin:'',fechaInicio:'',id:'',modalidad:{},turno:{},softdelete:false},
@@ -306,8 +291,16 @@ export default {
         },
         verSeccion(){},
         addCurso(){
-            this.listaCursosEnGrupo.push({curso:{},profesor:{},grupo:{id:this.seccionSelecionada.id},carrera:this.seccionSelecionada.carrera})
-            console.log(this.listaCursosEnGrupo)
+            this.listaCursosEnGrupo.push(
+                {
+                    curso:{},
+                    profesor:{},
+                    grupo:{
+                            id:this.seccionSelecionada.id
+                            },
+                    carrera:this.seccionSelecionada.carrera
+                }
+                )
         },
         GuardarCursosParaSeccion(){
             s_RegistraCursosGrupo(this.listaCursosEnGrupo).then(

@@ -93,7 +93,6 @@
                                         single-line
                                         hide-details
                                     >
-
                                     </v-text-field>
                                 </v-col>
                             </v-row>       
@@ -110,7 +109,7 @@
     </v-container>
 </template>
 <script>
-import {s_ProfesoreConPromedio,s_ReporteEstadosSolicitud,s_ReporteResumen,s_ReporteCantregistradosporFecha,s_ReportePorSecciones} from '@/API'
+import {s_ProfesoreConPromedio,s_ReporteEstadosSolicitud,s_ReporteResumen,s_ReporteCantregistradosporFecha,s_ReportePorSecciones,Func_LlenaCeros} from '@/API'
 import BarChar from './BarChar.js'
 import PieChart from './PieChart.js'
 import LineChart from './LineChart.js'
@@ -155,7 +154,7 @@ export default {
             headers:[
                 {
                     text:'Grupo',
-                    value:'idGrupo'
+                    value:'idConCeros'
                 },
                 {
                     text:'Carrera',
@@ -250,6 +249,9 @@ export default {
             s_ReportePorSecciones().then(
                 response =>{
                     this.ListareportesPorSeccion = response.data
+                    for(let  i =0 ; i < response.data.length ; i ++){
+                        this.ListareportesPorSeccion[i].idConCeros = this.llenaCeros(response.data[i].idGrupo,5,'SEC')
+                    }
                 }
             ).catch(
                 error =>{
@@ -295,6 +297,8 @@ export default {
                                 }
                             ]    
                 }
+        },llenaCeros(numero , cantidadCeros,letra){
+            return    Func_LlenaCeros(numero , cantidadCeros,letra)
         }
     },created(){
         this.ListarProfesoresYPromedios(),

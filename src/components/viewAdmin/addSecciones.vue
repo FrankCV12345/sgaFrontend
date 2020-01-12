@@ -84,6 +84,42 @@
                         label="Selecione Ciclo"
                     >
                     </v-select>
+                    <v-row>
+                            <v-col sm="2">
+                                <v-btn color="primary" @click="addCurso()">
+                                        <v-icon>mdi-plus-box</v-icon>
+                                        <span> Agregar Curso </span>
+                                </v-btn> 
+                                </v-col>
+                                <v-col sm="10">
+
+                                </v-col>
+                    </v-row> 
+                     <v-row v-for=" curso in seccion.cursos" :key="curso.id" >
+                                <v-col sm="5">
+                                    <v-select 
+                                    :items="listaCursos"
+                                    item-text="nombrecurso"
+                                    item-value="id"
+                                    v-model="curso.curso.id"
+                                    label="Seleciones Curso"
+                                    ></v-select>
+                                </v-col>
+                                <v-col sm="5">
+                                    <v-select 
+                                    :items="listaProfesores"
+                                    item-text="nombre"
+                                    item-value="id"
+                                    v-model="curso.profesor.id"
+                                    label="Seleciones profesor"
+                                    ></v-select>
+                                </v-col>
+                                <v-col sm="2">
+                                    <v-btn icon @click="QuitarCurso(curso)">
+                                        <v-icon color="red darken-2">mdi-playlist-remove</v-icon>
+                                    </v-btn>
+                                </v-col>
+                    </v-row>
                     <v-btn
                         color="error"
                         class="mr-4"
@@ -102,7 +138,7 @@
     </v-layout>
 </template>
 <script>
-import {s_ListaModalidades, s_ListaTurnos,s_ListaCarreas,s_ListaCiclosParaCarrera,s_RegistraSeccion}  from '@/API'
+import {s_ListaModalidades, s_ListaTurnos,s_ListaCarreas,s_ListaCiclosParaCarrera,s_RegistraSeccion,s_ListaProfesores,s_ListaCursos,s_RegistraCursosGrupo}  from '@/API'
 export default {
     name:'addSecciones',
     data(){
@@ -122,20 +158,27 @@ export default {
                         },
                         modalidad: {
                             id: null
-                        }
+                        },
+                        cursos:[
+                            
+                        ]
                     },
                     menuFechaInicio:false,
                     menuFechaFin:false,
                     listaModalidades:[],
                     listaTurnos:[],
                     listaCarreras:[],
-                    listaCicloParaCarrera:[]
+                    listaCicloParaCarrera:[],
+                    listaProfesores:[],
+                    listaCursos:[]
         }
     },
     created(){
        this.ListarModalidades(),
        this.ListarTurnos(),
-       this.listarCarreras()
+       this.listarCarreras(),
+       this.listarProfesores(),
+       this.listarCursos()
     },
     methods:{
         ListarModalidades(){
@@ -185,10 +228,78 @@ export default {
         guardarSeccion(){
             s_RegistraSeccion(this.seccion).then(
                 response => {
+                    this.seccion.id=  response.data.id
+                    this.seccion.carrera =  response.data.carrera
+                    this.RegistraCursos()
                     console.log("Registrado",response)
                 }
             ).catch(
                 error=> {
+                    console.error(error)
+                }
+            )
+        },
+        listarProfesores(){
+            s_ListaProfesores().then(
+                response => {
+                    this.listaProfesores =  response.data
+                }).catch(
+                error =>{
+                    console.log(error)
+                })
+        },listarCursos(){
+            s_ListaCursos().then(
+                response => {
+                        this.listaCursos = response.data
+                }).catch(
+                    error =>{
+                        console.log(error)
+                    })
+        },addCurso(){
+            let contadorNulos = 0;
+            for(let  i = 0 ; i < this.seccion.cursos.length; i ++){
+                let idCurso =    this.seccion.cursos[i].curso.id
+                
+                let idProfesor = this.seccion.cursos[i].profesor.id
+
+                if(idCurso == null || idProfesor == null  ){
+                    contadorNulos+= 1
+                }
+            }
+            if(contadorNulos == 0){    
+                this.seccion.cursos.push(
+                    {
+                        curso:{
+                            id:null
+                        },
+                        profesor:{
+                            id:null
+                        },
+                        grupo:{
+                            id:null
+                        },
+                        carrera:{
+                            id:null
+                        }
+                    }
+                )
+            }else{
+                console.log("Algunos cursos nulos")
+            }
+        },QuitarCurso(curso){
+                this.seccion.cursos.splice(this.seccion.cursos.indexOf(curso),1)
+        },
+        RegistraCursos(){
+            for(let i =0 ; i < this.seccion.cursos.length; i++ ){
+                this.seccion.cursos[i].grupo.id = this.seccion.id
+                this.seccion.cursos[i].carrera = this.seccion.carrera
+            }
+            s_RegistraCursosGrupo(this.seccion.cursos).then(
+                response =>{
+                    console.log("Cursos registrados",response.data)
+                }
+            ).catch(
+                error =>{
                     console.error(error)
                 }
             )

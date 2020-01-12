@@ -35,6 +35,7 @@
                     </v-data-table>
                 </v-col>
             </v-row>
+           
         </v-flex>
         <v-dialog persistent scrollable max-width="600px" v-model="dialogViewUser" >
             <v-card style="height: 400px;">

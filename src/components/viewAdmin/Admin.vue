@@ -59,8 +59,6 @@ export default {
                             localStorage.setItem('nombreRol',null)
                             localStorage.setItem('tokem',null)
                             this.$router.push('/login')
-                    }else{
-                        this.$router.push('/admin/Dashboard')
                     }
                 }
             }

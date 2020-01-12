@@ -157,16 +157,9 @@
                         Cancelar
                     </v-btn>
         
-    </v-form>
+                </v-form>
 
         </v-flex>
-        <!--<Appsnackbar 
-            v-if="showNackBar"
-            :snackBar="showNackBar" 
-            :text="messageSnackBar" 
-            :timeout="timeout" 
-            :color="colorSnackBar" 
-        />-->
         <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
             {{messageSnackBar}}
             <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
@@ -340,14 +333,18 @@ export default {
             return Func_IsNulOrEmpty(arreglo)
         },ValidaCamposParaAlumno(usuario){
             let isAlumno = usuario.rol.id == 1 ? true : false
-            if(isAlumno){
-                if(usuario.sede.id == null || usuario.nombreColegio == null || usuario.grupo.id == null ){
-                    return true
+            if(usuario.dni.length == 7 && usuario.telefono.length == 9){    
+                if(isAlumno){
+                    if(usuario.sede.id == null || usuario.nombreColegio == null || usuario.grupo.id == null ){
+                        return true
+                    }else{
+                        return false
+                    }
                 }else{
                     return false
                 }
             }else{
-                return false
+                return true
             }
         }
     },
