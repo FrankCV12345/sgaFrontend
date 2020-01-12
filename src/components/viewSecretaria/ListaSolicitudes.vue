@@ -63,6 +63,10 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+         <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+                {{messageSnackBar}}
+                <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+            </v-snackbar>
     </v-container>
 </template>
 <script>
@@ -90,7 +94,14 @@ export default {
                     sortable: false 
                 }
             ],
-            search:''
+            search:'',
+            showNackBar:false,
+            messageSnackBar:'',
+            timeout:2000,
+            colorSnackBar:'', 
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error',
+
         }
     },
     methods:{
@@ -126,11 +137,18 @@ export default {
             this.solicitudSelected.usuarioresponsable = {id:parseInt(localStorage.getItem("idUser"))}
             s_Actualizasolicitud(this.solicitudSelected).then(
                 response =>{
-                    console.log("respuesta",response.data)
+                    this.showNackBar = true
+                    this.timeout = 5000
+                    this.messageSnackBar = 'Solicitud Actualizada y asignada a su usuario'
+                    this.colorSnackBar = this.colorSnakBarSuces
+                    this.listarSolicitudes()
                 }
             ).catch(
                 error =>{
-                    alert("Error")
+                    this.showNackBar = true
+                    this.timeout = 2000
+                    this.messageSnackBar = 'Error , vuelva a intentarlo'
+                    this.colorSnackBar = this.colorSnackBarError
                 }
             )
         }

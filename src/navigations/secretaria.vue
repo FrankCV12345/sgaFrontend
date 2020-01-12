@@ -22,19 +22,7 @@
                     class="pt-0" dense
                 >
                 <v-divider/>
-               <!-- <v-list-item
-                    v-for="item in items" :key="item.title"
-                    :to="item.to"
-                >
-                    <v-list-item-icon>
-                        <v-icon  >{{item.icon}}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title > {{ item.title }} </v-list-item-title>
-                    </v-list-item-content>
-                    
-                </v-list-item>
-                -->
+               
                 <v-divider/>
 
                 
@@ -43,7 +31,7 @@
                         <template v-slot:activator>
                             <v-list-item-title v-text="item.title"></v-list-item-title>
                         </template>
-                        <v-list-item v-for="subitem in item.items" :key="subitem.title" :to="subitem.to" >
+                        <v-list-item v-for="subitem in item.items" :key="subitem.title" :to="subitem.to" @click="toggleDrawer" >
                             <v-icon>{{subitem.icon}}</v-icon>
                             <v-list-item-content>
                                 <v-list-item-title v-text="subitem.title" ></v-list-item-title>
