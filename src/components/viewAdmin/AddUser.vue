@@ -141,8 +141,6 @@
                                 </v-select>
                         </v-col>
                     </v-row>
-                    
-                    
                     <v-btn
                         color="error"
                         class="mr-4"

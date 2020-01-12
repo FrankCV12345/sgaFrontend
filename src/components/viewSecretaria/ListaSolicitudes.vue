@@ -63,10 +63,10 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-         <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
-                {{messageSnackBar}}
-                <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
-            </v-snackbar>
+        <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+            {{messageSnackBar}}
+            <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 <script>

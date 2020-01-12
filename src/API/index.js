@@ -24,10 +24,14 @@ export const s_InHabilitaUsuario = (id)=>{
 export const s_HabilitaUsuario = (id)=>{
     return AXIOS.get('/usuario/HabilitarUsuario/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
-
 export const s_ActulizaUsers = (id,params)=>{
     return AXIOS.put('usuario/'+id,params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+
+export const s_VerUsuario = (id)=>{
+    return AXIOS.get('usuario/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
 export const s_ListaModalidades = ()=>{
     return AXIOS.get('Modalidad',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }

@@ -18,6 +18,7 @@ import registroMatricula from '@/components/viewSecretaria/registroMatriculado'
 import ListaAlumnos from '@/components/viewSecretaria/ListAlumnos'
 import profesor from '@/components/viewProfesor/Profesor'
 import listaCursosySeciones from '@/components/viewProfesor/ListaSecioneYCurso'
+import UsuarioEdit from '@/components/ViewsUsuario/UsuarioEdit'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -90,6 +91,12 @@ const router = new Router({
           name: 'Dashboar',
           component: Dashboard,
           meta:{title:'Dashboard'}
+        },
+        {
+          path:'Usuario',
+          name:'Usuario',
+          component:UsuarioEdit,
+          meta:{title:'usuario'}
         }
       ]
     },
@@ -122,6 +129,12 @@ const router = new Router({
           name: 'ListaAlumnos',
           component: ListaAlumnos,
           meta:{title:' Lista Alumnos '}
+        },
+        {
+          path:'Usuario',
+          name:'Usuario',
+          component:UsuarioEdit,
+          meta:{title:'usuario'}
         }
       ]
     },
@@ -136,6 +149,12 @@ const router = new Router({
           name: 'ListaCursos',
           component: listaCursosySeciones,
           meta:{title:'Cursos'}
+        },
+        {
+          path:'Usuario',
+          name:'Usuario',
+          component:UsuarioEdit,
+          meta:{title:'usuario'}
         }
       ]
     }

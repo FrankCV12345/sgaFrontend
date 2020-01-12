@@ -49,6 +49,11 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        
+        <v-snackbar v-model="showNackBar" :color="colorSnackBar" :timeout="timeout" >
+            {{messageSnackBar}}
+            <v-btn text @click="showNackBar = false" >Cerrar</v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 <script>
@@ -60,7 +65,13 @@ export default {
             listasolicitudes : null,
             solicitudSelected:null,
             dialogSolicitud:false,
-            listaTiposEstado : null
+            listaTiposEstado : null,
+            showNackBar:false,
+            messageSnackBar:'',
+            timeout:2000,
+            colorSnackBar:'', 
+            colorSnakBarSuces:'cyan darken-2',
+            colorSnackBarError:'error',
         }
     },
     methods:{
@@ -91,11 +102,18 @@ export default {
             this.solicitudSelected.usuarioresponsable = {id:parseInt(localStorage.getItem("idUser"))}
             s_Actualizasolicitud(this.solicitudSelected).then(
                 response =>{
-                    console.log("respuesta",response.data)
+                    this.showNackBar = true
+                    this.messageSnackBar ='Se modifico el estado correctamente.'
+                    this.timeout = 5000
+                    this.colorSnackBar = this.colorSnakBarSuces
                 }
             ).catch(
                 error =>{
-                    alert("Error")
+                    
+                    this.showNackBar = true
+                    this.messageSnackBar ='Error al modificar el estado'
+                    this.timeout = 5000
+                    this.colorSnackBar = this.colorSnackBarError
                 }
             )
         },
