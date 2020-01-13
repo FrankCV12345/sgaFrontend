@@ -27,7 +27,7 @@
                         <template v-slot:activator>
                             <v-list-item-title v-text="item.title"></v-list-item-title>
                         </template>
-                        <v-list-item v-for="subitem in item.Subitems" :key="subitem.title" :to="subitem.to" >
+                        <v-list-item v-for="subitem in item.Subitems" :key="subitem.title" :to="subitem.to" @click="toggleDrawer" >
                             <v-icon>{{subitem.icon}}</v-icon>
                             <v-list-item-content>
                                 <v-list-item-title v-text="subitem.title" ></v-list-item-title>
@@ -39,9 +39,9 @@
                 <v-divider/>
 
                 <v-list>
-                    <v-list-item>
+                    <v-list-item @click="toggleDrawer">
                         <v-list-item-icon >
-                            <v-icon @click="toggleDrawer">mdi-keyboard-backspace</v-icon>
+                            <v-icon>mdi-keyboard-backspace</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
                             <v-list-item-title>Cerrar</v-list-item-title>
@@ -68,6 +68,11 @@ export default {
                         {
                             title:'Notas Alumno', Subitems:[
                                 {title:'Mi Cursos', icon:'mdi-library', to:'/docente/listaCursosDocente'}
+                            ]
+                        },
+                        {
+                            title:'Mis Datos', Subitems:[
+                                {title:'Actualizar mi datos',icon:'mdi-account-edit', to:'docente/Usuario'}
                             ]
                         }
                             

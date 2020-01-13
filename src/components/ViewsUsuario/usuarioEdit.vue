@@ -133,18 +133,21 @@
                     <v-text-field
                         label="Contrasena anterior"
                         type="password"
+                        v-model="paramsNewppas.oldpass"
                     ></v-text-field>
                     <v-text-field
                         type="password"
                         label="Nueva contrasena"
+                        v-model="paramsNewppas.newpass"
                     ></v-text-field>
                     <v-text-field
                         type="password"
                         label="Confirme nueva contrasena"
+                        v-model="paramsNewppas.newpassConfirm"
                     ></v-text-field>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn color="light-blue darken-4"  class="white--text"> Actualizar</v-btn>
+                    <v-btn color="light-blue darken-4"  class="white--text" :disabled="validaPassword()" @click="ActualizaPass()" > Actualizar</v-btn>
                     <v-btn text @click="DialogCambiaContra = false"  >Cancelar</v-btn>
                 </v-card-actions>
             </v-card>
@@ -156,7 +159,7 @@
     </v-container>
 </template>
 <script>
-import {s_VerUsuario,s_listaSexo,s_listaTipoDoc,s_ActulizaUsers} from '@/API'
+import {s_VerUsuario,s_listaSexo,s_listaTipoDoc,s_ActulizaUsers,s_ActulizaPass} from '@/API'
 export default {
     name:'UsuarioEdit',
     data(){
@@ -196,6 +199,11 @@ export default {
         colorSnackBar:'', 
         colorSnakBarSuces:'cyan darken-2',
         colorSnackBarError:'error',
+        paramsNewppas:{
+            oldpass:null,
+            newpass:null,
+            newpassConfirm:null
+        }
         }
     },
     methods :{
@@ -245,6 +253,39 @@ export default {
                     this.colorSnackBar =  this.colorSnackBarError 
                 }
             )
+        }, 
+        ActualizaPass(){
+            let  id = parseInt(localStorage.getItem("idUser"))
+           
+            s_ActulizaPass(id, this.paramsNewppas).then(
+                response =>{
+                    this.showNackBar = true
+                    this.messageSnackBar = 'Contrasena Actualizada'
+                    this.colorSnackBar = this.colorSnakBarSuces
+                    this.DialogCambiaContra = false
+
+                }
+            ).catch(
+                error =>{
+                    
+                    this.showNackBar = true
+                    this.messageSnackBar = 'Las contrasena no anterior no es valida'
+                    this.colorSnackBar = this.colorSnackBarError
+
+                }
+            )
+        },
+        validaPassword(){
+            if(this.paramsNewppas.newpass != null &&  this.paramsNewppas.newpassConfirm != null){
+                if(this.paramsNewppas.newpass == this.paramsNewppas.newpassConfirm && this.paramsNewppas.newpassConfirm.length > 5 &&  this.paramsNewppas.newpass.length  > 5 && this.paramsNewppas.oldpass != null ){
+                    return false
+                }else{
+                    return true
+                }
+            }else {
+                return true
+            }
+            
         }
     },
     created(){

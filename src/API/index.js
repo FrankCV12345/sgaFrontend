@@ -28,6 +28,10 @@ export const s_ActulizaUsers = (id,params)=>{
     return AXIOS.put('usuario/'+id,params,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
 
+export const s_ActulizaPass = (id,params)=>{
+    return AXIOS.get('usuario/updatePassword/'+id+'/oldpass='+params.oldpass+'&newpass='+params.newpass,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
+
 export const s_VerUsuario = (id)=>{
     return AXIOS.get('usuario/'+id,{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }

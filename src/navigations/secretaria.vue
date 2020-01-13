@@ -76,7 +76,7 @@ export default {
                                 ]
                         },
                         {title : ' Mis datos',items:[
-                                {title : 'Actualizar mis datos',icon:'mdi-account-edit', to:'agregaUsusario'}
+                                {title : 'Actualizar mis datos',icon:'mdi-account-edit', to:'secretaria/Usuario'}
                             ]
                         }
                     ]
