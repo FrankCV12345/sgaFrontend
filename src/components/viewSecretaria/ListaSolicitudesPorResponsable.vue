@@ -1,21 +1,29 @@
 <template>
     <v-container>
         <v-row>
-            <v-col sm="12"> <h2>Mis Solicitudes atendidas</h2> </v-col>
+            <v-col sm="8"> <h2>Mis Solicitudes atendidas</h2> </v-col>
+            <v-col sm="4" >
+                <v-text-field
+                label="Buscar"
+                v-model="searchSolicitud"
+                >
+
+                </v-text-field>
+            </v-col>
         </v-row>
         <v-row>
-            <v-col sm="12" v-if="listasolicitudes != null" >
-                <v-list>
-                    <v-list-item v-for="item in listasolicitudes" :key="item.id" >
+            <v-col  sm="12"  v-if="listasolicitudes != null" > 
+                <v-data-table
+                :headers="headers"
+                :items="listasolicitudes"
+                :search="searchSolicitud"
+                >
+                    <template   v-slot:item.action={item} >
                         <v-btn v-if="item.estadosolicitud.id != 6" icon @click="VerSolicitud(item)">
                             <v-icon>mdi-eye</v-icon>
                         </v-btn>
-                        <v-list-item-content>
-                            <v-list-item-title>{{llenaCeros(item.id,5,'SOL')}}<v-spacer></v-spacer>{{item.tiposolicitud.nombresolicitud}}</v-list-item-title>
-                            <v-list-item-subtitle><b>Estado : </b>{{item.estadosolicitud.nombresolicitud}} </v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list>
+                    </template>
+                </v-data-table>
             </v-col>
         </v-row>
         <v-dialog v-model="dialogSolicitud" persistent scrollable max-width="900px" >
@@ -62,11 +70,30 @@ export default {
     name:'solicitudesPorResponsable',
     data(){
         return{
+            searchSolicitud:'',
             listasolicitudes : null,
             solicitudSelected:null,
             dialogSolicitud:false,
             listaTiposEstado : null,
             showNackBar:false,
+            headers:[
+                {
+                    text:'ID Solicitud',
+                    value:'idllenado'
+                },
+                {
+                    text:'Tipo Solicitud',
+                    value:'tiposolicitud.nombresolicitud'
+                },
+                {
+                    text:'Estado',
+                    value:'estadosolicitud.nombresolicitud'
+                },
+                {
+                    text:'',
+                    value:'action'
+                }
+            ],
             messageSnackBar:'',
             timeout:2000,
             colorSnackBar:'', 
@@ -79,6 +106,13 @@ export default {
             s_ListaSolicitudesPorResponsable().then(
                 response => {
                     this.listasolicitudes = response.data
+                   for(let i =0 ; i < response.data.length ; i ++){
+                       this.listasolicitudes[i].idllenado =  this.llenaCeros(
+                           response.data[i].id,
+                           5,'SEC'
+                       )
+
+                   }
                 }
             ).catch(
                 error =>{
