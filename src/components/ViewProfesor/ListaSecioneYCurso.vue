@@ -1,23 +1,31 @@
 <template>
     <v-container>
         <v-row>
-            <v-col sm="12"> <h1> Lista de cursos</h1> </v-col>
+            <v-col sm="8"> <h1> Lista de cursos</h1> </v-col>
+            <v-col sm="4" >
+                <v-text-field
+                label="Buscar"
+                v-model="searchCurso"
+                >
+
+                </v-text-field>
+            </v-col>
         </v-row>
         <v-row v-if="ListaDeCursos !=null" >
             <v-col sm="12" >
-                <v-list>
-                    <v-list-item v-for="curso in  ListaDeCursos " :key="curso.idCurso_grupo" >
-                        <v-btn icon @click="listarAlumnos(curso)">
+                <v-data-table
+                :headers="headersListaCurso"
+                :items="ListaDeCursos"
+                :search="searchCurso"
+                >
+                    <template  v-slot:item.action={item} >
+                        <v-btn icon @click="listarAlumnos(item)">
                             <v-icon>
                                 mdi-eye
                             </v-icon>
                         </v-btn>
-                        <v-list-item-content>
-                            <v-list-item-title>{{curso.nombreCurso}}</v-list-item-title>
-                            <v-list-item-subtitle>{{llenaCeros(curso.idGrupo,5,'SEC')}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list>
+                    </template>
+                </v-data-table>
             </v-col>
         </v-row>
         <v-dialog persistent scrollable v-model="dialoglistaAlumnos" v-if="ListaAlumnos != null" max-width="900px" >
@@ -124,6 +132,7 @@ export default {
     name:"listaCursosySeciones",
     data(){
         return {
+            searchCurso:'',
             ListaDeCursos:null,
             ListaAlumnos : null,
             dialoglistaAlumnos: false,
@@ -158,6 +167,20 @@ export default {
                     sortable: false 
                 }
             ],
+            headersListaCurso:[
+                {
+                    text:'Nombre Curso',
+                    value:'nombreCurso'
+                },
+                {
+                    text:'Seccion',
+                    value:'IdConCeros'
+                },
+                {
+                    text:'',
+                    value:'action'
+                }
+            ],
             searchAlumno:'',
             showNackBar:false,
             messageSnackBar:'',
@@ -172,7 +195,9 @@ export default {
            s_ListaCursosProfesor().then(
                response =>{
                    this.ListaDeCursos = response.data
-
+                   for(let i =0 ; i <  response.data.length ; i ++){
+                       this.ListaDeCursos[i].IdConCeros =  this.llenaCeros(response.data[i].idGrupo,5,'SEC')
+                   }
                }    
            ).catch(
                error =>{
@@ -185,13 +210,16 @@ export default {
             
             s_ListaAlumnosPorGrupo(curso.idGrupo).then(
                 response =>{   
-                    this.ListaAlumnos = response.data
-                    console.log(this.ListaAlumnos)
-                    this.dialoglistaAlumnos = true
+                    this.ListaAlumnos = (response.data.length == 0) ? null: response.data 
+                    if(this.ListaAlumnos !== null){
+                        this.dialoglistaAlumnos = true  
+                    }
                 }   
             ).catch(
                 error =>{
-                    console.error(error)
+                    this.showNackBar =true
+                    this.colorSnackBar = this.colorSnackBarError
+                    this.messageSnackBar= 'Error al listar Cursos'
                 }
             )
         },
@@ -201,7 +229,7 @@ export default {
                 this.notaSelected.curso.id =  this.cursoSelected.idCurso_grupo
             
             }
-            s_RegistraNota(this.notaSelected).then(
+                s_RegistraNota(this.notaSelected).then(
                 response => {
                     this.notaSelected = response.data
                     this.dialognotasAlulmno =  true
@@ -209,14 +237,27 @@ export default {
                     this.colorSnackBar = this.colorSnakBarSuces
                     this.showNackBar = true
                 }
-            ).catch(
-                error =>{
-                    this.messageSnackBar ="Error al Registrar nota"
-                    this.colorSnackBar = this.colorSnackBarError
-                    this.showNackBar = true
+                ).catch(
+                    error =>{
+                        this.messageSnackBar ="Error al Registrar nota"
+                        this.colorSnackBar = this.colorSnackBarError
+                        this.showNackBar = true
+                    }
+                )
+          
+            
+        },NotaIsCorrect(notas){
+            if(notas.nota1 != null  && notas.nota2 != null && notas.nota3 != null && notas.examenfinal != null ){
+                    if(notas.nota1 >= 0 && nota.nota1 <= 20 && nota.nota2 >= 0  && nota.nota2 <= 20 && nota.nota3 >=0 && nota.nota3 <= 20 && nota.examenfinal >=0 && nota.examenfinal <= 20 ){
+                        return true
+                    }else{
+                        return false
+                    }
+            }else{
+                if(nota.nota1 != null){
+
                 }
-            )
-        },NotaIsCorrect(numero){
+            }
             if(numero !== null && numero >=0 && numero <=20){
                 return true
             }else{

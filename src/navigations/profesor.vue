@@ -72,7 +72,7 @@ export default {
                         },
                         {
                             title:'Mis Datos', Subitems:[
-                                {title:'Actualizar mi datos',icon:'mdi-account-edit', to:'docente/Usuario'}
+                                {title:'Actualizar mi datos',icon:'mdi-account-edit', to:'/docente/Usuario'}
                             ]
                         }
                             
