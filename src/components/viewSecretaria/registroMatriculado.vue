@@ -104,7 +104,7 @@
                         :items="LstSexo"
                         item-text="nombreSexo"
                         name='id'
-                        v-model="NewAlumno.nombreSexo.id"
+                        v-model="NewAlumno.sexo.id"
                         item-value="id"
                         label="Selecione Sexo."
                     >
@@ -161,7 +161,7 @@ export default {
     name:'registroMatricula',
     data(){
         return {
-            NewAlumno:{nombre:null,apellidos:null ,nombreSexo:{id:null} , tipoDoc:{id:null}, nombreSede:{id:null}, grupo:{id:null, carrera:{nombre:null}}, rol: {
+            NewAlumno:{nombre:null,apellidos:null ,sexo:{id:null} , tipoDoc:{id:null}, nombreSede:{id:null}, grupo:{id:null, carrera:{nombre:null}}, rol: {
                 id: 1
             }},
             LstTipoDoc:null,

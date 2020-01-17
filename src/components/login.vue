@@ -23,6 +23,11 @@
                                 ></v-text-field>
                         </v-row>
                         <v-row>
+                            <v-col >
+                                <div class="g-recaptcha" data-sitekey="6Ld_UtAUAAAAABmAStIaxEzCpMP8AKdUYePIuKir"></div>                        
+                            </v-col>
+                        </v-row>
+                        <v-row>
                             <v-btn color="primary" :disabled="validForm"  @click="login" >ENTRAR</v-btn>
                         </v-row>
                     </v-container>
@@ -62,7 +67,9 @@ export default {
     methods : {    
            login (){
                 if(this.CheckForm(this.usuario)){
-                    AXIOS.post('login',this.usuario).then( response => {
+                    let responseCaptcha = document.getElementById("g-recaptcha-response").value
+                    this.usuario.responseCaptcha = responseCaptcha
+                    AXIOS.post('loginSeguro',this.usuario).then( response => {
                             let usuario =  response.data
                                 let fecha = new Date()
                                 localStorage.setItem('tokem',usuario.token)
@@ -100,6 +107,7 @@ export default {
                             } 
                         }
                     )
+                        
                    }else {
                         this.snackBar = true
                         this.colorSnakBar = this.colorSnackBarError

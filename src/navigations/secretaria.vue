@@ -61,9 +61,6 @@ export default {
     data(){
             return  {
                     drawer : false,
-                    items :[
-                        {title : 'Actualizar mis datos',icon:'mdi-account-edit', to:'agregaUsusario'},
-                    ],
                      itemsMenu:[
                         {title:'Solicitudes', items:[
                             {title : 'Mis Solicitudes',icon:'mdi-book-open', to:'/secretaria/MisSolicitudes'},
@@ -75,8 +72,8 @@ export default {
                                 {title : 'Matriculados',icon:'mdi-account-multiple-outline', to:'/secretaria/ListaAlumnos'}
                                 ]
                         },
-                        {title : ' Mis datos',items:[
-                                {title : 'Actualizar mis datos',icon:'mdi-account-edit', to:'secretaria/Usuario'}
+                        {title : 'Mis datos',items:[
+                                {title : 'Actualizar mis datos',icon:'mdi-account-edit', to:'/secretaria/Usuario'}
                             ]
                         }
                     ]

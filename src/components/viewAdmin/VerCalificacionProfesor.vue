@@ -1,17 +1,33 @@
 <template>
     <v-layout>
         <v-flex sm12>
-            <h1>Lista Profesores</h1>
-            <v-list>
-                <v-list-item v-for=" profesor in listaProfesores " :key="profesor.id">
-                    <v-btn icon @click="verPerfilProfesor(profesor.id)">
-                        <v-icon>mdi-eye</v-icon>
-                    </v-btn>
-                    <v-list-item-content>
-                        <v-list-item-title>{{profesor.nombre +" "+profesor.apellidos}}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
+            <v-row>
+                <v-col sm="8" ><h1>Lista Profesores</h1></v-col>
+                <v-col sm="4" >
+                    <v-text-field
+                    label="Buscar"
+                    v-model="searchProfesor"
+                    >
+
+                    </v-text-field>
+                </v-col>
+            </v-row>
+            
+            <v-row>
+                <v-col sm="12" >
+                    <v-data-table
+                    :headers="headers"
+                    :items="listaProfesores"
+                    :search="searchProfesor"
+                    >
+                        <template v-slot:item.action={item} >
+                            <v-btn icon @click="verPerfilProfesor(item.id)">
+                                <v-icon>mdi-eye</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-data-table>
+                </v-col>
+            </v-row>
             <v-dialog  v-model="DialogRadar" scrollable persistent max-width="680px" >
                 <v-card  max-height="600px">
                     <v-card-title>Grafico Radar de Aptitudes de profesor </v-card-title>
@@ -42,6 +58,21 @@ export default {
     
     data(){
         return {
+            searchProfesor:'',
+            headers:[
+                {
+                    text:'Nombre Profesor',
+                    value:'nombre'
+                },
+                {
+                    text:'Apellidos ',
+                    value:'apellidos'
+                },
+                {
+                    text:'',
+                    value:'action'
+                }
+            ],
             listaProfesores : [],
             datacollection: null,
             DialogRadar:false,

@@ -122,12 +122,13 @@ export default {
                     this.messageSnackBar = 'Se Actualizo la Seccion'
                     this.colorSnackBar = this.colorSnakBarSuces   
                     this.DialogAlumnos = false
+
                 }
             ).catch(
                 error =>{
                     this.showNackBar = true
                     this.messageSnackBar = 'Error al actualizar'
-                    this.colorSnackBar = this.error
+                    this.colorSnackBar = this.colorSnackBarError
                     this.DialogAlumnos = false
                 }
             )
