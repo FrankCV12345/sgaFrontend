@@ -117,7 +117,7 @@
                         :items="LstaSedes"
                         item-text="nombreSede"
                         name='id'
-                        v-model="NewAlumno.nombreSede.id"
+                        v-model="NewAlumno.sede.id"
                         item-value="id"
                         label="Selecione Sede"
                     >
@@ -161,9 +161,29 @@ export default {
     name:'registroMatricula',
     data(){
         return {
-            NewAlumno:{nombre:null,apellidos:null ,sexo:{id:null} , tipoDoc:{id:null}, nombreSede:{id:null}, grupo:{id:null, carrera:{nombre:null}}, rol: {
-                id: 1
-            }},
+            NewAlumno:{nombre: null,
+            apellidos: null,
+            direcion: null,
+            dni: null,
+            correo: null,
+            telefono: null,
+            nombreColegio: null,
+            fechaNacimiento: new Date().toISOString().substr(0, 10),
+            sexo: {
+                id: null
+            },
+            tipoDoc: {
+                id: null
+                
+            },
+            sede: {
+                id: null
+            },
+            grupo:{
+                id:null
+            },
+                rol: {id: 1}
+            },
             LstTipoDoc:null,
             LstSexo:null,
             LstaSedes:null,
@@ -215,7 +235,7 @@ export default {
                 response =>{
                     this.LstaSecciones = response.data
                     for(let i = 0 ; i < response.data.length; i++ ){
-                        this.LstaSecciones[i].NombreAndId =  this.LlenaCerros(response.data[i].id,5,'SEC') +" - "+ response.data[i].carrera.nombre +" - "+response.data[i].turno.nombreturno
+                        this.LstaSecciones[i].NombreAndId =  this.LlenaCerros(response.data[i].id,5,'SEC') +" - "+ response.data[i].carrera.nombre +" - "+response.data[i].turno.nombreturno +" - Ciclo : "+response.data[i].ciclo.nrociclo
                     }
                 }
             ).catch(
@@ -225,24 +245,49 @@ export default {
             )
         },
         RegistrarAlumno(){
-            s_registraUser(this.NewAlumno).then(
-                response =>{
-                    this.messageSnackBar ="Alumno Registrado"
-                    this.colorSnackBar = this.colorSnakBarSuces
-                    this.showNackBar = true
-                    console.log(response)
-                }
-            ).catch(
-                error =>{   
-                    this.messageSnackBar ="Error al Registrar"
-                    this.colorSnackBar = this.colorSnackBarError
-                    this.showNackBar = true
-                    console.error(error)
-                }
-            )
+
+            let usuario = this.NewAlumno
+            let isNullOrEmpty = this.validaMatricula(
+                [
+                    usuario.nombre , 
+                    usuario.apellidos,
+                    usuario.direcion,
+                    usuario.dni,
+                    usuario.correo,
+                    usuario.telefono,
+                    usuario.rol.id,
+                    usuario.sexo.id,
+                    usuario.tipoDoc.id
+                ]
+                 )
+            if(!isNullOrEmpty){    
+                s_registraUser(this.NewAlumno).then(
+                    response =>{
+                        this.messageSnackBar ="Alumno Registrado"
+                        this.colorSnackBar = this.colorSnakBarSuces
+                        this.showNackBar = true
+                        console.log(response)
+                    }
+                ).catch(
+                    error =>{   
+                        this.messageSnackBar ="Error al Registrar"
+                        this.colorSnackBar = this.colorSnackBarError
+                        this.showNackBar = true
+                        console.error(error)
+                    }
+                )
+            }else{
+                
+                        this.messageSnackBar ="Datos Invalidos verifique y vuelva a intentar"
+                        this.colorSnackBar = this.colorSnackBarError
+                        this.showNackBar = true
+            }
+             console.log(this.NewAlumno)
         }
         ,LlenaCerros(numero , cantidadCeros,letra){
             return Func_LlenaCeros(numero , cantidadCeros,letra)
+        },validaMatricula(arreglo){
+            return Func_IsNulOrEmpty(arreglo)
         }
         
     },

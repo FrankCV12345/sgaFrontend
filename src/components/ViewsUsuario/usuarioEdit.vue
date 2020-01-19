@@ -134,16 +134,19 @@
                         label="Contrasena anterior"
                         type="password"
                         v-model="paramsNewppas.oldpass"
+                        
                     ></v-text-field>
                     <v-text-field
                         type="password"
-                        label="Nueva contrasena"
+                        label="Nueva contrasena ( min 6 caracteres)"
                         v-model="paramsNewppas.newpass"
+                     
                     ></v-text-field>
                     <v-text-field
                         type="password"
-                        label="Confirme nueva contrasena"
+                        label="Confirme nueva contrasena (min 6 caracteres)"
                         v-model="paramsNewppas.newpassConfirm"
+                        
                     ></v-text-field>
                 </v-card-text>
                 <v-card-actions>

@@ -129,7 +129,10 @@ export default {
                 scales: {
                     xAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            min: 0,
+                            max: 5,
+                            stepSize: 1
                         }
                     }]
                 }
@@ -139,8 +142,8 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 title: {
-                display: true,
-                text: ""
+                display: false,
+                text: "",
                 }
             },
             resumen :{

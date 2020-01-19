@@ -189,14 +189,14 @@ export default {
                 id: null
                 
             },
-            rol: {
-                id: null
-            },
             sede: {
                 id: null
             },
             grupo:{
                 id:null
+            },
+            rol: {
+                id: null
             }
         },
         tiposDoc:[],

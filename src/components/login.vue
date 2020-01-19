@@ -23,8 +23,8 @@
                                 ></v-text-field>
                         </v-row>
                         <v-row>
-                            <v-col >
-                                <div class="g-recaptcha" data-sitekey="6Ld_UtAUAAAAABmAStIaxEzCpMP8AKdUYePIuKir"></div>                        
+                            <v-col>
+                               <!-- <div class="g-recaptcha" data-sitekey="6Ld_UtAUAAAAABmAStIaxEzCpMP8AKdUYePIuKir"></div>  -->               
                             </v-col>
                         </v-row>
                         <v-row>
@@ -67,9 +67,9 @@ export default {
     methods : {    
            login (){
                 if(this.CheckForm(this.usuario)){
-                    let responseCaptcha = document.getElementById("g-recaptcha-response").value
-                    this.usuario.responseCaptcha = responseCaptcha
-                    AXIOS.post('loginSeguro',this.usuario).then( response => {
+                    //let responseCaptcha = document.getElementById("g-recaptcha-response").value
+                    //this.usuario.responseCaptcha = responseCaptcha
+                    AXIOS.post('login',this.usuario).then( response => {
                             let usuario =  response.data
                                 let fecha = new Date()
                                 localStorage.setItem('tokem',usuario.token)
