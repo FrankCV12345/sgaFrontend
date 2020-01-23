@@ -231,7 +231,10 @@ export default {
             }
                 s_RegistraNota(this.notaSelected).then(
                 response => {
+                    
+                    console.log(response.data)
                     this.notaSelected = response.data
+                    console.log(this.notaSelected.alumno.nombre)
                     this.dialognotasAlulmno =  true
                     this.messageSnackBar ="Nota Registrada"
                     this.colorSnackBar = this.colorSnakBarSuces
@@ -247,22 +250,7 @@ export default {
           
             
         },NotaIsCorrect(notas){
-            if(notas.nota1 != null  && notas.nota2 != null && notas.nota3 != null && notas.examenfinal != null ){
-                    if(notas.nota1 >= 0 && nota.nota1 <= 20 && nota.nota2 >= 0  && nota.nota2 <= 20 && nota.nota3 >=0 && nota.nota3 <= 20 && nota.examenfinal >=0 && nota.examenfinal <= 20 ){
-                        return true
-                    }else{
-                        return false
-                    }
-            }else{
-                if(nota.nota1 != null){
-
-                }
-            }
-            if(numero !== null && numero >=0 && numero <=20){
-                return true
-            }else{
-                return false
-            }
+            
         },
         cerrarDialog(){
             this.dialoglistaAlumnos =  false;

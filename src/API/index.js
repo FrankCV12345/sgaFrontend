@@ -104,6 +104,9 @@ export const s_Actualizasolicitud=(params)=>{
 export const s_EstadosSolicitud = ()=>{
     return AXIOS.get('/TiposEstadoSolicitud/',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
 }
+export const s_TipoSolicitud = () =>{
+    return AXIOS.get('/TipoSolicitud/',{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})
+}
 
 export const s_ListaSolicitudesPorResponsable=()=>{
     return AXIOS.get('/SolicitudesAlumno/Responsable/'+localStorage.getItem("idUser"),{headers:{'Content-Type': 'application/json','Authorization':  localStorage.getItem('tokem')}})

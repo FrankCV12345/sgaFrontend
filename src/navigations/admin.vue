@@ -76,6 +76,10 @@ export default {
                                 {title : 'Registro de Cursos',icon:'mdi-book-open-page-variant', to:'/admin/AgregaCurso'},
                                 {title : 'Lista de Cursos',icon:'mdi-book-open-page-variant', to:'/admin/ListaCursos'},
                             ]
+                        },{
+                            title:'Admin. Solicitud', items:[
+                                {title : 'Titpos Solicitud',icon:'mdi-book-open-page-variant', to:'/admin/TiposSolicitud'}
+                            ]    
                         },
                         {
                             title:'Admin. de Secciones', items:[

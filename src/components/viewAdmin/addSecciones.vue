@@ -237,7 +237,7 @@ export default {
             )
         },
         guardarSeccion(){
-            if(this.seccion.cursos.length > 0){
+            if(this.seccion.cursos.length > 0 && this.seccion.fechaInicio != null && this.seccion.fechaFin != null && this.seccion.modalidad.id != null && this.seccion.turno.id != null & this.seccion.carrera.id != null && this.seccion.ciclo != null ){
                 s_RegistraSeccion(this.seccion).then(
                     response => {
                         this.seccion.id=  response.data.id
@@ -277,7 +277,7 @@ export default {
                 )
             }else{
                 this.showNackBar = true
-                this.messageSnackBar = 'Debe agrega almenos 1 curso para esta seccion'
+                this.messageSnackBar = 'Datos invalidos'
                 this.colorSnackBar = this.colorSnackBarError
             }
         },

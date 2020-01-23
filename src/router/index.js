@@ -19,6 +19,7 @@ import ListaAlumnos from '@/components/viewSecretaria/ListAlumnos'
 import profesor from '@/components/viewProfesor/Profesor'
 import listaCursosySeciones from '@/components/viewProfesor/ListaSecioneYCurso'
 import UsuarioEdit from '@/components/ViewsUsuario/UsuarioEdit'
+import TiposSolicitud from '@/components/viewAdmin/ListTipoSolicitud'
 /*import store from '@/store'
 const beforeEnter = (to,from,next)=>{
   if(store.state.AuthModule.logged){
@@ -97,6 +98,12 @@ const router = new Router({
           name:'Usuario',
           component:UsuarioEdit,
           meta:{title:'usuario'}
+        },
+        {
+          path:'TiposSolicitud',
+          name:'Tipos Solicitud',
+          component:TiposSolicitud,
+          meta:{title:'Tipos solicitud'}
         }
       ]
     },

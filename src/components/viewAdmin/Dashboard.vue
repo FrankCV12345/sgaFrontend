@@ -143,7 +143,15 @@ export default {
                 maintainAspectRatio: false,
                 title: {
                 display: false,
-                text: "",
+                text: ""
+                },
+                 scales: {
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            stepSize: 1
+                        }
+                    }]
                 }
             },
             resumen :{
